@@ -1,0 +1,7 @@
+{{template "header" .}}
+    <div class="sub-title">- Blog -</div>
+    <div id="md"></div>
+    <script>
+        document.getElementById('md').innerHTML = marked({{ .Body }});
+    </script>
+{{template "footer" }}
