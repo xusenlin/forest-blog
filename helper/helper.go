@@ -1,6 +1,8 @@
 package helper
 
-import "html/template"
+import (
+	"html/template"
+)
 
 func HtmlTemplate(fileName string) (* template.Template, error) {
 

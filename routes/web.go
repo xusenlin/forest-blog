@@ -8,9 +8,10 @@ import (
 func InitRoute()  {
 
 	http.HandleFunc("/", controller.Index)
+	http.HandleFunc("/blog", controller.Index)
+	http.HandleFunc("/categories", controller.Categories)
+	http.HandleFunc("/works", controller.Works)
+	http.HandleFunc("/about", controller.About)
 
-	//http.Handle("/pollux/", http.StripPrefix("/pollux/", http.FileServer(http.Dir("file"))))
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("resources/public"))))
-	//fsh := http.FileServer(http.Dir("resources/public"))
-	//http.Handle("/static/", http.StripPrefix("/static/", fsh))
 }

@@ -1,0 +1,9 @@
+{
+  "siteName": "Xu senlin's Personal blog",
+  "port": "80",
+  "documentPath": "resources/blog_docs",
+  "htmlKeywords": "htmlKeywords",
+  "htmlDescription": "htmlDescription",
+  "documentGithubUrl": "https://github.com/xusenlin/blog_docs.git",
+  "maxNumberArticleOfCategory": 6
+}

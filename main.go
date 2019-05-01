@@ -1,11 +1,14 @@
 package main
 
 import (
-	"net/http"
+	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/routes"
+	"net/http"
 )
 
 func main() {
+
 	routes.InitRoute()
-	http.ListenAndServe(":80", nil)
+
+	http.ListenAndServe( ":" + config.Cfg.Port , nil)
 }
