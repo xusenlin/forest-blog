@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/models"
 	"net/http"
@@ -9,13 +8,19 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 
+	type HomeInfo struct {
+		Title string
+		Articles []models.ArticleInfo
+		Pagination []int
+	}
 
+	homeInfoData := HomeInfo{"首页",models.GetAllArticle(),[]int{1,2,3}}
 	template, templateErr := helper.HtmlTemplate("index")
 	if templateErr != nil {
 		panic(templateErr)
 	}
 
-	err := template.Execute(w, map[string]string{"Title": "首页", "Body": "阿斯顿撒多"})
+	err := template.Execute(w, map[string]HomeInfo{"Data": homeInfoData})
 	if err != nil {
 		panic(err)
 	}
@@ -23,7 +28,11 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func Categories(w http.ResponseWriter, r *http.Request)  {
 
-	fmt.Println(models.GetCategoriesInfo())
+	type CategoryInfo struct {
+		Title string
+		Categories []models.Category
+	}
+	categoryInfoData := CategoryInfo{"分类",models.GetCategoriesInfo()}
 
 	template, templateErr := helper.HtmlTemplate("categories")
 
@@ -31,7 +40,7 @@ func Categories(w http.ResponseWriter, r *http.Request)  {
 		panic(templateErr)
 	}
 
-	err := template.Execute(w, map[string]string{"Title": "分类", "Body": "阿斯顿撒多"})
+	err := template.Execute(w, map[string]CategoryInfo{"Data": categoryInfoData})
 	if err != nil {
 		panic(err)
 	}

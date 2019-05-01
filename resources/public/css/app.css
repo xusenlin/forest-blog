@@ -117,7 +117,7 @@ hr{
 .categories-card{
     width: 50%;
     margin-bottom: 46px;
-    min-height: 260px;
+    min-height: 250px;
     padding: 0 16px;
 }
 @media screen and (max-width: 780px){

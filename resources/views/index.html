@@ -1,7 +1,11 @@
-{{template "header" .}}
+{{template "header" .Data}}
     <div class="sub-title">- Blog -</div>
-    <div id="md"></div>
-    <script>
-        document.getElementById('md').innerHTML = marked({{ .Body }});
-    </script>
+
+        {{range .Data.Articles }}
+            {{ .Title }} ..{{ .CreatedAt }} ...{{ .Category }}<br><hr>
+        {{end}}
+
+        {{range $page := .Data.Pagination }}
+            {{ $page }}
+        {{end}}
 {{template "footer" .}}

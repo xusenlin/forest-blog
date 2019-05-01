@@ -12,3 +12,5 @@ func HtmlTemplate(fileName string) (* template.Template, error) {
 		"resources/views/layouts/footer.html")
 
 }
+
+
