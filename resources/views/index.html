@@ -2,11 +2,11 @@
 <div class="sub-title">- Blog -</div>
 
 <ul class="articles">
-    {{range .Data.Articles }}
+    {{range .Data.Pagination.Articles }}
         <li>
-            <a class="title" href="">{{ .Title }}</a>
+            <a class="title" href="/article/{{ .Category }}/{{ .Title }}">{{ .Title }}</a>
             <div class="article-info">
-               <a class="category" href="">
+               <a class="category" href="/category/{{ .Category }}">
                    <img class="icon" src="/public/img/folder.svg" alt="">
                    {{ .Category }}
                </a>
@@ -20,9 +20,9 @@
 </ul>
 
 <ul class="pagination">
-    {{range $page := .Data.Pagination }}
-        <li class="">
-            <a href="/posts/1">{{ $page }}</a>
+    {{range $page := .Data.Pagination.PageNum }}
+        <li class="{{ if eq $page $.Data.Pagination.CurrentPage }}active{{end}}">
+            <a href="/?page={{ $page }}">{{ $page }}</a>
         </li>
     {{end}}
 </ul>

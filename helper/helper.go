@@ -4,13 +4,19 @@ import (
 	"html/template"
 )
 
-func HtmlTemplate(fileName string) (* template.Template, error) {
+func HtmlTemplate(fileName string) (*template.Template, error) {
 
 	return template.ParseFiles(
 		"resources/views/"+fileName+".html",
 		"resources/views/layouts/head.html",
 		"resources/views/layouts/footer.html")
-
 }
 
+func BuildArrByInt(num int) []int {
+	var arr []int
 
+	for i := 1; i <= num; i ++ {
+		arr = append(arr,i)
+	}
+	return arr
+}

@@ -11,15 +11,14 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	type HomeInfo struct {
 		Title string
-		Articles []models.ArticleInfo
-		Pagination []int
+		Pagination models.ArticlesPagination
 	}
 
 	page,pageErr := strconv.Atoi(r.Form.Get("page"))
 	if pageErr != nil{
 		page = 1
 	}
-	homeInfoData := HomeInfo{"首页",models.GetArticleByPage(int(page)),[]int{1,2,3}}
+	homeInfoData := HomeInfo{"首页",models.GetArticleByPage(page)}
 
 	template, templateErr := helper.HtmlTemplate("index")
 	if templateErr != nil {

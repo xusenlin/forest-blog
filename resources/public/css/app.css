@@ -162,7 +162,7 @@ hr{
     color: #bfbfbf;
     padding-bottom: 6px;
 }
-.pagination li a:hover {
+.pagination li a:hover,.pagination .active{
     border-bottom: 3px solid #673ab7;
 }
 
@@ -179,6 +179,7 @@ hr{
 .articles li .title{
     display: block;
     width: 100%;
+    height: 26px;
     font-size: 18px;
 }
 .article-info{

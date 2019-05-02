@@ -2,7 +2,9 @@ package models
 
 import (
 	"github.com/xusenlin/go_blog/config"
+	"github.com/xusenlin/go_blog/helper"
 	"io/ioutil"
+	"math"
 	"sort"
 	"time"
 )
@@ -26,6 +28,12 @@ type ArticleInfo struct {
 	CreatedAt time.Time
 }
 
+type ArticlesPagination struct {
+	Articles []ArticleInfo
+	Total int
+	CurrentPage int
+	PageNum []int
+}
 
 type Articles []ArticleInfo
 
@@ -41,27 +49,39 @@ func (a Articles) Swap(i, j int) {
 	a[i], a[j] = a[j], a[i]
 }
 
-func GetArticleByPage(page int) []ArticleInfo {
+func GetArticleByPage(page int) ArticlesPagination {
 
 	article := getAllArticle()
 	articleLen := len(article)
+	pageSize := config.Cfg.PageSize
+	totalPage := int(math.Floor(float64(articleLen / pageSize)))
 
-	if page < 1 || config.Cfg.PageSize * (page-1) > articleLen{//超出页码
+	if (articleLen % pageSize) != 0 {
+		totalPage ++
+	}
 
-		if config.Cfg.PageSize <= articleLen{
-			return article[0 : config.Cfg.PageSize]
+	pageNum := helper.BuildArrByInt(totalPage)
+
+	if page < 1 || pageSize * (page-1) > articleLen{//超出页码
+
+		if pageSize <= articleLen{
+			article := article[0 : pageSize]
+			return ArticlesPagination{article,articleLen,1,pageNum}
 		}else {
-			return article[0 : articleLen]
+			article := article[0 : articleLen]
+			return ArticlesPagination{article,articleLen,1,pageNum}
 		}
 	}
 
-	startNum := (page-1) * config.Cfg.PageSize
-	endNum := startNum + config.Cfg.PageSize
+	startNum := (page-1) * pageSize
+	endNum := startNum + pageSize
 
 	if endNum > articleLen {
-		return article[startNum : articleLen]
+		article := article[startNum : articleLen]
+		return ArticlesPagination{article,articleLen,page,pageNum}
 	}else {
-		return  article[startNum : endNum]
+		article := article[startNum : endNum]
+		return  ArticlesPagination{article,articleLen,page,pageNum}
 	}
 
 }
