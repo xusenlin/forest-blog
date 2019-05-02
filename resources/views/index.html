@@ -1,11 +1,29 @@
 {{template "header" .Data}}
-    <div class="sub-title">- Blog -</div>
+<div class="sub-title">- Blog -</div>
 
-        {{range .Data.Articles }}
-            {{ .Title }} ..{{ .CreatedAt }} ...{{ .Category }}<br><hr>
-        {{end}}
+<ul class="articles">
+    {{range .Data.Articles }}
+        <li>
+            <a class="title" href="">{{ .Title }}</a>
+            <div class="article-info">
+               <a class="category" href="">
+                   <img class="icon" src="/public/img/folder.svg" alt="">
+                   {{ .Category }}
+               </a>
+                <div class="date">
+                    <img class="icon" src="/public/img/date.svg" alt="">
+                    {{ .CreatedAt.Format "2006-01-02 15:04" }}
+                </div>
+            </div>
+        </li>
+    {{end}}
+</ul>
 
-        {{range $page := .Data.Pagination }}
-            {{ $page }}
-        {{end}}
+<ul class="pagination">
+    {{range $page := .Data.Pagination }}
+        <li class="">
+            <a href="/posts/1">{{ $page }}</a>
+        </li>
+    {{end}}
+</ul>
 {{template "footer" .}}

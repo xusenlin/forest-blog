@@ -13,6 +13,8 @@ type Config struct {
 
 	Port string `json:"port"`
 
+	PageSize int `json:"pageSize"`
+
 	DocumentPath string `json:"documentPath"`
 
 	HtmlKeywords string `json:"htmlKeywords"`

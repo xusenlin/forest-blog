@@ -1,6 +1,7 @@
 {
   "siteName": "Xu senlin's Personal blog",
   "port": "80",
+  "pageSize": 8,
   "documentPath": "resources/blog_docs",
   "htmlKeywords": "htmlKeywords",
   "htmlDescription": "htmlDescription",
