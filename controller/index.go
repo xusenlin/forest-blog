@@ -18,7 +18,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	if pageErr != nil{
 		page = 1
 	}
-	homeInfoData := HomeInfo{"首页",models.GetArticleByPage(page)}
+	homeInfoData := HomeInfo{"首页",models.GetArticles(page,"")}
 
 	template, templateErr := helper.HtmlTemplate("index")
 	if templateErr != nil {
@@ -50,6 +50,7 @@ func Categories(w http.ResponseWriter, r *http.Request)  {
 		panic(err)
 	}
 }
+
 func Works(w http.ResponseWriter, r *http.Request)  {
 
 	markdown,mdErr := models.GetMarkdownByPath("Works.md")

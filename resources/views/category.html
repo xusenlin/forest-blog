@@ -1,5 +1,5 @@
 {{template "header" .Data}}
-<div class="sub-title">- Blog -</div>
+<div class="sub-title">- Categories > <span class="sub">{{ .Data.CategoryName }}</span>  -</div>
 
 <ul class="articles">
     {{range .Data.Pagination.Articles }}
@@ -22,7 +22,7 @@
 <ul class="pagination">
     {{range $page := .Data.Pagination.PageNum }}
         <li class="{{ if eq $page $.Data.Pagination.CurrentPage }}active{{end}}">
-            <a href="?page={{ $page }}">{{ $page }}</a>
+            <a href="/category?page={{ $page }}&name={{ $.Data.CategoryName }}">{{ $page }}</a>
         </li>
     {{end}}
 </ul>
