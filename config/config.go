@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"io/ioutil"
+	"os"
 )
 
 const ConfigFilePath = "app.json"
@@ -26,9 +27,21 @@ type Config struct {
 	MaxNumberArticleOfCategory int `json:"maxNumberArticleOfCategory"`
 }
 
-var Cfg  Config
+
+
+
+var Cfg Config
+
+var CurrentDir string
 
 func init()  {
+	var pwdErr error
+	CurrentDir,pwdErr = os.Getwd()
+
+	if pwdErr != nil {
+		panic(pwdErr)
+	}
+
 	configFile,err := ioutil.ReadFile(ConfigFilePath)
 
 	if err != nil {

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
 	"io/ioutil"
@@ -10,26 +11,28 @@ import (
 	"strings"
 )
 
-func GetArticle(path string) Article {
+func GetArticle(path string) (Article , error) {
 
 	fullPath := config.Cfg.DocumentPath + "/" + path
 	categoryName := strings.Split(path,"/")[1]
 	markdownFile, fileErr := os.Stat(fullPath)
+
+	var emptyArticle Article
+
 	if fileErr != nil {
-		panic(fileErr)
+		return emptyArticle,fileErr
 	}
 	if markdownFile.IsDir() {
-		panic("this path is Dir")
+		return emptyArticle,errors.New("this path is Dir")
 	}
 	markdown, mdErr := GetMarkdownByPath(path)
 
 	if mdErr != nil {
-
-		panic(mdErr)
+		return emptyArticle,mdErr
 	}
 
 	return Article{
-		markdownFile.Name(), markdownFile.ModTime(), categoryName, string(markdown), fullPath}
+		markdownFile.Name(), markdownFile.ModTime(), categoryName, string(markdown), fullPath},nil
 }
 
 func GetArticles(page int , categoryName string) ArticlesPagination {

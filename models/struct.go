@@ -45,4 +45,3 @@ func (a Articles) Swap(i, j int) {
 	a[i], a[j] = a[j], a[i]
 }
 
-

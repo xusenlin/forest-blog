@@ -22,12 +22,14 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	template, templateErr := helper.HtmlTemplate("index")
 	if templateErr != nil {
-		panic(templateErr)
+		w.Write(helper.ErrorHtml(templateErr.Error()))
+		return
 	}
 
 	err := template.Execute(w, map[string]HomeInfo{"Data": homeInfoData})
 	if err != nil {
-		panic(err)
+		w.Write(helper.ErrorHtml(err.Error()))
+		return
 	}
 }
 
@@ -42,12 +44,14 @@ func Categories(w http.ResponseWriter, r *http.Request)  {
 	template, templateErr := helper.HtmlTemplate("categories")
 
 	if templateErr != nil {
-		panic(templateErr)
+		w.Write(helper.ErrorHtml(templateErr.Error()))
+		return
 	}
 
 	err := template.Execute(w, map[string]CategoryInfo{"Data": categoryInfoData})
 	if err != nil {
-		panic(err)
+		w.Write(helper.ErrorHtml(err.Error()))
+		return
 	}
 }
 
@@ -55,18 +59,21 @@ func Works(w http.ResponseWriter, r *http.Request)  {
 
 	markdown,mdErr := models.GetMarkdownByPath("Works.md")
 	if mdErr != nil {
-		panic(mdErr)
+		w.Write(helper.ErrorHtml(mdErr.Error()))
+		return
 	}
 
 	template, templateErr := helper.HtmlTemplate("works")
 
 	if templateErr != nil {
-		panic(templateErr)
+		w.Write(helper.ErrorHtml(templateErr.Error()))
+		return
 	}
 
 	err := template.Execute(w, map[string]string{"Title": "作品", "Body": string(markdown)})
 	if err != nil {
-		panic(err)
+		w.Write(helper.ErrorHtml(err.Error()))
+		return
 	}
 }
 
@@ -74,17 +81,20 @@ func About(w http.ResponseWriter, r *http.Request)  {
 
 	markdown,mdErr := models.GetMarkdownByPath("About.md")
 	if mdErr != nil {
-		panic(mdErr)
+		w.Write(helper.ErrorHtml(mdErr.Error()))
+		return
 	}
 
 	template, templateErr := helper.HtmlTemplate("about")
 	if templateErr != nil {
-		panic(templateErr)
+		w.Write(helper.ErrorHtml(templateErr.Error()))
+		return
 	}
 
 	err := template.Execute(w, map[string]string{"Title": "关于", "Body": string(markdown)})
 	if err != nil {
-		panic(err)
+		w.Write(helper.ErrorHtml(err.Error()))
+		return
 	}
 
 }

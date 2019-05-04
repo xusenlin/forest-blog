@@ -20,17 +20,22 @@ func Article(w http.ResponseWriter, r *http.Request)  {
 	path := r.Form.Get("path")
 
 
-	article := models.GetArticle("content/" + path)
-
+	article,readErr := models.GetArticle("content/" + path)
+	if readErr != nil {
+		w.Write(helper.ErrorHtml(readErr.Error()))
+		return
+	}
 
 	template, templateErr := helper.HtmlTemplate("article")
 	if templateErr != nil {
-		panic(templateErr)
+		w.Write(helper.ErrorHtml(templateErr.Error()))
+		return
 	}
 
 	err := template.Execute(w, map[string]ArticleInf{"Data": {"文章详情",article}})
 	if err != nil {
-		panic(err)
+		w.Write(helper.ErrorHtml(err.Error()))
+		return
 	}
 }
 
@@ -51,11 +56,13 @@ func CategoryArticle(w http.ResponseWriter, r *http.Request)  {
 
 	template, templateErr := helper.HtmlTemplate("category")
 	if templateErr != nil {
-		panic(templateErr)
+		w.Write(helper.ErrorHtml(templateErr.Error()))
+		return
 	}
 
 	err := template.Execute(w, map[string]CategoryInfo{"Data": categoryInfoData})
 	if err != nil {
-		panic(err)
+		w.Write(helper.ErrorHtml(err.Error()))
+		return
 	}
 }
