@@ -86,6 +86,11 @@ a:hover{
     min-height: calc(100vh - 120px);
     padding: 46px 0;
 }
+@media screen and (max-width: 780px){
+    .post-warp{
+        min-height: calc(100vh - 132px);
+    }
+}
 
 .footer{
     display: flex;
@@ -173,6 +178,8 @@ hr{
     padding: 0;
 }
 .articles li{
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dcdcdc;
     list-style-type: none;
     margin: 40px 0;
  }
