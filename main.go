@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/routes"
@@ -15,7 +16,8 @@ func main() {
 
 	routes.InitRoute()
 
-	http.ListenAndServe( ":" + config.Cfg.Port , nil)
+	fmt.Println("服务已经启动 Listening...")
 
+	http.ListenAndServe( ":" + config.Cfg.Port , nil)
 
 }

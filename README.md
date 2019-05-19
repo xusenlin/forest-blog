@@ -12,10 +12,11 @@
 - 请将你的博客文档克隆到ForestBlog的resources下，ForestBlog会3个小时自动根据app.json的documentPath key切换到你的博客目录下执行git pull 命令来更新你的文章。所以正确配置documentPath指向你的博客文档很关键。
 
 
-- 还有，你的博客文档目录里面最少需要content目录、About.md和Works.md文件。content目录下每一个目录代表一个分类。如下：
+- 还有，你的博客文档目录里面最少需要assets、content目录和About.md和Works.md文件。content目录下每一个目录代表一个分类。如下：
 
 ## 目录结构 ##
 
+    |-- assets       //博客静态文件
     |-- content
     |   |-- GOLANG   //分类目录
     |       |--- ForestBlog使用文档.md     

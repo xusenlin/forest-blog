@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 )
@@ -25,8 +26,6 @@ type Config struct {
 	HtmlKeywords string `json:"htmlKeywords"`
 
 	HtmlDescription string `json:"htmlDescription"`
-
-	DocumentGithubUrl string `json:"documentGithubUrl"`
 
 	MaxNumberArticleOfCategory int `json:"maxNumberArticleOfCategory"`
 }
@@ -57,5 +56,5 @@ func init()  {
 	if jsonErr != nil {
 		panic(err)
 	}
-
+	fmt.Println("初始化配置完成...")
 }
