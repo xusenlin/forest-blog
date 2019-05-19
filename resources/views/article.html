@@ -1,19 +1,19 @@
-{{template "header" .Data}}
+{{template "header" .}}
     <div class="sub-title">- Article -</div>
 
-    <h1>{{ .Data.Article.Title }}</h1>
+    <h1>{{ .Data.Title }}</h1>
     <div class="article-info">
-        <a class="category" href="/category?name={{ .Data.Article.Category }}">
+        <a class="category" href="/category?name={{ .Data.Category }}">
             <img class="icon" src="/public/img/folder.svg" alt="">
-            {{ .Data.Article.Category }}
+            {{ .Data.Category }}
         </a>
         <div class="date">
             <img class="icon" src="/public/img/date.svg" alt="">
-            {{ .Data.Article.CreatedAt.Format "2006-01-02 15:04" }}
+            {{ .Data.CreatedAt.Format "2006-01-02 15:04" }}
         </div>
     </div>
     <div id="article" class="article"></div>
     <script>
-        document.getElementById('article').innerHTML = marked({{  .Data.Article.Body }});
+        document.getElementById('article').innerHTML = marked({{  .Data.Body }});
     </script>
 {{template "footer" .}}

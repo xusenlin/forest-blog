@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="Keywords" content="Xu senlin's Personal blog" />
     <meta name="description" content="Xu senlin's Personal blog" />
-    <title>{{ .Title }} - Xu senlin's Personal blog</title>
+    <title>{{ .Title }} - {{ .Config.SiteName }}</title>
     <link rel="stylesheet" href="/public/css/app.css">
     <script src="/public/js/marked.min.js"></script>
 </head>
 <body>
     <nav class="head">
         <div class="container head-content">
-            <div class="logo">XuSenLin</div>
+            <div class="logo">{{ .Config.SiteName }}</div>
             <div class="nav">
                 <a href="/">Blog</a>
                 <a href="/categories">Categories</a>

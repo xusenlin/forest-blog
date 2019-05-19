@@ -1,7 +1,7 @@
 package controller
 
 import (
-
+	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/models"
 	"net/http"
@@ -32,7 +32,11 @@ func Article(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 
-	err := template.Execute(w, map[string]ArticleInf{"Data": {"文章详情",article}})
+	err := template.Execute(w, map[string]interface{}{
+		"Title":"文章详情",
+		"Data": article,
+		"Config":config.Cfg,
+	})
 	if err != nil {
 		w.Write(helper.ErrorHtml(err.Error()))
 		return
@@ -41,18 +45,12 @@ func Article(w http.ResponseWriter, r *http.Request)  {
 
 func CategoryArticle(w http.ResponseWriter, r *http.Request)  {
 	r.ParseForm()
-	type CategoryInfo struct {
-		Title string
-		CategoryName string
-		Pagination models.ArticlesPagination
-	}
 
 	categoryName := r.Form.Get("name")
 	page,pageErr := strconv.Atoi(r.Form.Get("page"))
 	if pageErr != nil{
 		page = 1
 	}
-	categoryInfoData := CategoryInfo{"首页",categoryName,models.GetArticles(page,categoryName)}
 
 	template, templateErr := helper.HtmlTemplate("category")
 	if templateErr != nil {
@@ -60,7 +58,11 @@ func CategoryArticle(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 
-	err := template.Execute(w, map[string]CategoryInfo{"Data": categoryInfoData})
+	err := template.Execute(w, map[string]interface{}{
+		"Title":categoryName,
+		"Data": models.GetArticles(page,categoryName),
+		"Config":config.Cfg,
+	})
 	if err != nil {
 		w.Write(helper.ErrorHtml(err.Error()))
 		return

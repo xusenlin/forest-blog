@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/models"
 	"net/http"
@@ -9,16 +10,11 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	type HomeInfo struct {
-		Title string
-		Pagination models.ArticlesPagination
-	}
 
 	page,pageErr := strconv.Atoi(r.Form.Get("page"))
 	if pageErr != nil{
 		page = 1
 	}
-	homeInfoData := HomeInfo{"首页",models.GetArticles(page,"")}
 
 	template, templateErr := helper.HtmlTemplate("index")
 	if templateErr != nil {
@@ -26,7 +22,12 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := template.Execute(w, map[string]HomeInfo{"Data": homeInfoData})
+	err := template.Execute(w, map[string]interface{}{
+		"Title":"首页",
+		"Data": models.GetArticles(page,""),
+		"Config":config.Cfg,
+	})
+
 	if err != nil {
 		w.Write(helper.ErrorHtml(err.Error()))
 		return
@@ -35,12 +36,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func Categories(w http.ResponseWriter, r *http.Request)  {
 
-	type CategoryInfo struct {
-		Title string
-		Categories []models.Category
-	}
-	categoryInfoData := CategoryInfo{"分类",models.GetCategoriesInfo()}
-
 	template, templateErr := helper.HtmlTemplate("categories")
 
 	if templateErr != nil {
@@ -48,7 +43,11 @@ func Categories(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 
-	err := template.Execute(w, map[string]CategoryInfo{"Data": categoryInfoData})
+	err := template.Execute(w, map[string]interface{}{
+		"Title":"分类",
+		"Data": models.GetCategoriesInfo(),
+		"Config":config.Cfg,
+	})
 	if err != nil {
 		w.Write(helper.ErrorHtml(err.Error()))
 		return
@@ -70,7 +69,11 @@ func Works(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 
-	err := template.Execute(w, map[string]string{"Title": "作品", "Body": string(markdown)})
+	err := template.Execute(w, map[string]interface{}{
+		"Title": "作品",
+		"Body": string(markdown),
+		"Config":config.Cfg,
+	})
 	if err != nil {
 		w.Write(helper.ErrorHtml(err.Error()))
 		return
@@ -91,7 +94,10 @@ func About(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 
-	err := template.Execute(w, map[string]string{"Title": "关于", "Body": string(markdown)})
+	err := template.Execute(w, map[string]interface{}{
+		"Title": "关于", "Body": string(markdown),
+		"Config":config.Cfg,
+	})
 	if err != nil {
 		w.Write(helper.ErrorHtml(err.Error()))
 		return

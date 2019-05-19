@@ -12,6 +12,10 @@ const ConfigFilePath = "app.json"
 type Config struct {
 	SiteName string `json:"siteName"`
 
+	Author string `json:"author"`
+	
+	Icp string `json:"icp"`
+	
 	Port string `json:"port"`
 
 	PageSize int `json:"pageSize"`

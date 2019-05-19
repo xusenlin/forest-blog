@@ -1,9 +1,11 @@
 {
-  "siteName": "Xu senlin's Personal blog",
+  "siteName": "Xu Senlin's Personal blog",
+  "author": "XuSenLin",
+  "icp": "黔ICP备15004120号",
   "port": "80",
-  "pageSize": 2,
+  "pageSize": 6,
   "documentPath": "resources/blog_docs",
-  "htmlKeywords": "htmlKeywords",
-  "htmlDescription": "htmlDescription",
+  "htmlKeywords": "forest blog,Golang,前端",
+  "htmlDescription": "Xu Senlin's Personal blog",
   "maxNumberArticleOfCategory": 6
 }

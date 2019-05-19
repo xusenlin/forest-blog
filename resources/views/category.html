@@ -1,8 +1,8 @@
-{{template "header" .Data}}
-<div class="sub-title">- Categories > <span class="sub">{{ .Data.CategoryName }}</span>  -</div>
+{{template "header" .}}
+<div class="sub-title">- Categories > <span class="sub">{{ .Title }}</span>  -</div>
 
 <ul class="articles">
-    {{range .Data.Pagination.Articles }}
+    {{range .Data.Articles }}
         <li>
             <a class="title" href="/article?path={{ .Category }}/{{ .Title }}">{{ .Title }}</a>
             <div class="article-info">
@@ -20,9 +20,9 @@
 </ul>
 
 <ul class="pagination">
-    {{range $page := .Data.Pagination.PageNum }}
-        <li class="{{ if eq $page $.Data.Pagination.CurrentPage }}active{{end}}">
-            <a href="/category?page={{ $page }}&name={{ $.Data.CategoryName }}">{{ $page }}</a>
+    {{range $page := .Data.PageNum }}
+        <li class="{{ if eq $page $.Data.CurrentPage }}active{{end}}">
+            <a href="/category?page={{ $page }}&name={{ $.Title }}">{{ $page }}</a>
         </li>
     {{end}}
 </ul>

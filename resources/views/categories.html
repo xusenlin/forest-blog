@@ -1,7 +1,7 @@
-{{template "header" .Data}}
+{{template "header" .}}
     <div class="sub-title">- Categories -</div>
     <div class="categories">
-        {{range .Data.Categories}}
+        {{range .Data}}
             <div class="categories-card">
                 <a href="/category?name={{ .Title }}">
                     <h3><img class="icon" src="/public/img/folder.svg" alt=""> {{ .Title }} <sub>({{ .Number }})</sub></h3>
@@ -13,7 +13,5 @@
                 </article>
             </div>
         {{end}}
-
-
     </div>
 {{template "footer" .}}
