@@ -12,7 +12,7 @@
             {{ .Data.CreatedAt.Format "2006-01-02 15:04" }}
         </div>
     </div>
-    <div id="article" class="article"></div>
+    <div id="article" class="article markdow"></div>
     <script>
         document.getElementById('article').innerHTML = marked({{  .Data.Body }});
     </script>
