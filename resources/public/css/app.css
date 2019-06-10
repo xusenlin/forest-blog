@@ -92,6 +92,11 @@ a:hover{
     }
 }
 
+.post-warp img{
+    width: 100%;
+}
+
+
 .footer{
     display: flex;
     height: 54px;
