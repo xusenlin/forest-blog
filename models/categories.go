@@ -5,45 +5,41 @@ import (
 	"io/ioutil"
 )
 
+func GetCategories() (Categories, error) {
 
+	var content Categories
 
-type Category struct {
-	Title string
-	Number int
-	Article []ArticleInfo
-}
+	categoriesDir, err := ioutil.ReadDir(config.Cfg.DocumentPath + "/content")
 
-
-func GetCategoriesInfo() []Category {
-
-	var Categories  []Category
-
-	CategoriesDirs ,_ := ioutil.ReadDir(config.Cfg.DocumentPath + "/content")
-
-	for _, CategoriesDir := range CategoriesDirs {
-
-		if CategoriesDir.IsDir() {
-
-			CategoriesMdFile ,_ := ioutil.ReadDir(config.Cfg.DocumentPath + "/content/" + CategoriesDir.Name())
-
-			var mdArticle  []ArticleInfo
-
-			for num, markdownFile := range CategoriesMdFile {
-
-				if num >= config.Cfg.MaxNumberArticleOfCategory{
-					goto Loop
-				}
-
-				mdArticle = append(mdArticle,
-					ArticleInfo{markdownFile.Name(),CategoriesDir.Name(),markdownFile.ModTime(),nil,""})
-
-			}
-
-			Loop :
-
-			Categories = append(Categories, Category{CategoriesDir.Name(),len(CategoriesMdFile),mdArticle})
-		}
+	if err != nil {
+		return content, err
 	}
 
-	return Categories
+	for _, category := range categoriesDir {
+
+		if !category.IsDir() {
+			continue
+		}
+		var categoryContent Category
+		markdownList, err := GetMarkdownListByCache(category.Name())
+
+		if err != nil {
+			return content, err
+		}
+
+		listLen := len(markdownList)
+		categoryListFileNumber := listLen
+
+		if listLen >= config.Cfg.CategoryListFileNumber {
+			categoryListFileNumber = config.Cfg.CategoryListFileNumber
+		}
+
+		categoryContent.Title = category.Name()
+		categoryContent.Number = listLen
+		categoryContent.MarkdownFileList = markdownList[0:categoryListFileNumber]
+
+		content = append(content, categoryContent)
+	}
+
+	return content, nil
 }

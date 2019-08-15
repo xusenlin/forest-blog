@@ -27,6 +27,7 @@ func ErrorHtml(errorInfo string) []byte {
 
 	return []byte(errorHtml)
 }
+
 func BuildArrByInt(num int) []int {
 	var arr []int
 
@@ -38,7 +39,7 @@ func BuildArrByInt(num int) []int {
 
 func StartTicker(f func()) {
 
-	ticker:=time.NewTicker(time.Hour * 3)
+	ticker:=time.NewTicker(time.Hour * 8)
 
 	go func() {
 		for _ =range ticker.C {

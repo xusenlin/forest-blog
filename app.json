@@ -7,5 +7,5 @@
   "documentPath": "resources/blog_docs",
   "htmlKeywords": "forest blog,Golang,前端",
   "htmlDescription": "Xu Senlin's Personal blog",
-  "maxNumberArticleOfCategory": 6
+  "categoryListFileNumber": 6
 }

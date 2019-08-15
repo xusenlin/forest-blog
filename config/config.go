@@ -27,7 +27,7 @@ type Config struct {
 
 	HtmlDescription string `json:"htmlDescription"`
 
-	MaxNumberArticleOfCategory int `json:"maxNumberArticleOfCategory"`
+	CategoryListFileNumber int `json:"categoryListFileNumber"`
 }
 
 

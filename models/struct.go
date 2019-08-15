@@ -4,52 +4,56 @@ import (
 	"time"
 )
 
-//type Tag string
+type Tag string
 
-type Article struct {
-	// 文章的标题
-	Title string
-	// 创建时间
-	CreatedAt time.Time `toml:"created_at"`
-	// 所属分类的名称
-	Category string
-	// 文章主题内容， markdown
+type Time time.Time
+
+type Markdown struct {
+	Title       string `json:"title"`
+	Date        Time   `json:"date"`
+	Description string `json:"description"`
+	Tags        []Tag  `json:"tags"`
+	Author      string `json:"author"`
+	Category    string `json:"category"`
+	Path        string `json:"path"`
+}
+
+type MarkdownDetails struct {
+	Markdown
 	Body string
-	// 文章文件路径
-	Path string
-	//文章标签
-	Tags []Tag
-
-	Description string
 }
+type MarkdownList []Markdown
 
-type ArticleInfo struct {
-	Title string
-	Category string	// 所属分类的名称
-	CreatedAt time.Time
-	Tags []Tag
-	Description string
-}
-
-type ArticlesPagination struct {
-	Articles []ArticleInfo
-	Total int
+type MarkdownPagination struct {
+	Markdowns   MarkdownList
+	Total       int
 	CurrentPage int
-	PageNum []int
+	PageNum     []int
 }
 
-type Articles []ArticleInfo
-
-
-func (a Articles) Len() int {
-	return len(a)
+type Category struct {
+	Title            string
+	Number           int
+	MarkdownFileList MarkdownList
 }
 
-func (a Articles) Less(i, j int) bool {
-	return a[i].CreatedAt.After(a[j].CreatedAt)
+type Categories []Category
+
+func (t *Time) UnmarshalJSON(b []byte) error {
+	date, err := time.ParseInLocation("\"2006-01-02 15:04\"", string(b), time.Local)
+	if err != nil {
+		return nil
+	}
+	*t = Time(date)
+	return nil
 }
 
-func (a Articles) Swap(i, j int) {
-	a[i], a[j] = a[j], a[i]
+func (t Time) MarshalJSON() ([]byte, error) {
+	return []byte(time.Time(t).Format("\"2006-01-02 15:04\"")), nil
 }
 
+func (m MarkdownList) Len() int { return len(m) }
+
+func (m MarkdownList) Less(i, j int) bool { return time.Time(m[i].Date).After(time.Time(m[j].Date)) }
+
+func (m MarkdownList) Swap(i, j int) { m[i], m[j] = m[j], m[i] }
