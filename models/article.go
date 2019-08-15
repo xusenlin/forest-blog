@@ -1,6 +1,8 @@
 package models
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
 	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
@@ -9,9 +11,10 @@ import (
 	"os"
 	"sort"
 	"strings"
+	"time"
 )
 
-func GetArticle(path string) (Article , error) {
+func GetArticleDetails(path string) (Article , error) {
 
 	fullPath := config.Cfg.DocumentPath + "/" + path
 	categoryName := strings.Split(path,"/")[1]
@@ -31,8 +34,49 @@ func GetArticle(path string) (Article , error) {
 		return emptyArticle,mdErr
 	}
 
+	markdown = bytes.TrimSpace(markdown)
+
+	markdownArticle := Article{
+		markdownFile.Name(),
+		markdownFile.ModTime(),
+		categoryName,
+		string(markdown),
+		fullPath,
+		nil,
+		"",
+	}
+
+	if ! bytes.HasPrefix(markdown,[]byte("```json")) {
+		return markdownArticle,nil
+	}
+
+	markdown = bytes.Replace(markdown,[]byte("```json"),[]byte(""),1)
+
+	article := bytes.SplitN(markdown,[]byte("```"),2)
+
+	var info struct{
+		Date string `json:"date"`
+		Description string `json:"description"`
+		Tags []Tag `json:"tags"`
+	}
+
+	if json.Unmarshal(bytes.TrimSpace(article[0]),&info) != nil{
+		return markdownArticle,nil
+	}
+
+	loc, _ := time.LoadLocation("Local")
+	timeVal,_ := time.ParseInLocation("2006-01-02 15:04",info.Date,loc)
+
 	return Article{
-		markdownFile.Name(), markdownFile.ModTime(), categoryName, string(markdown), fullPath},nil
+		markdownFile.Name(),
+		timeVal,
+		categoryName,
+		string(article[1]),
+		fullPath,
+		info.Tags,
+		info.Description,
+	},nil
+
 }
 
 func GetArticles(page int , categoryName string) ArticlesPagination {
@@ -89,7 +133,8 @@ func getAllArticle() []ArticleInfo {
 			CategoriesMdFile, _ := ioutil.ReadDir(config.Cfg.DocumentPath + "/content/" + CategoriesDir.Name())
 
 			for _, markdownFile := range CategoriesMdFile {
-				allArticle = append(allArticle, ArticleInfo{markdownFile.Name(), CategoriesDir.Name(), markdownFile.ModTime()})
+				allArticle = append(allArticle,
+					ArticleInfo{markdownFile.Name(), CategoriesDir.Name(), markdownFile.ModTime(),nil,""})
 			}
 
 		}
@@ -106,10 +151,10 @@ func getArticleByCategoryName(categoryName string) []ArticleInfo {
 
 	for _, markdownFile := range CategoriesMdFile {
 
-		allArticle = append(allArticle, ArticleInfo{markdownFile.Name(), categoryName, markdownFile.ModTime()})
+		allArticle = append(allArticle,
+			ArticleInfo{markdownFile.Name(), categoryName, markdownFile.ModTime(),nil,""})
 
 	}
-
 	sort.Sort(allArticle)
 
 	return allArticle

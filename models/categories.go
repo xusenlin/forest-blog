@@ -3,7 +3,6 @@ package models
 import (
 	"github.com/xusenlin/go_blog/config"
 	"io/ioutil"
-	"time"
 )
 
 
@@ -11,7 +10,6 @@ import (
 type Category struct {
 	Title string
 	Number int
-	CreatedAt time.Time
 	Article []ArticleInfo
 }
 
@@ -36,13 +34,14 @@ func GetCategoriesInfo() []Category {
 					goto Loop
 				}
 
-				mdArticle = append(mdArticle,ArticleInfo{markdownFile.Name(),CategoriesDir.Name(),markdownFile.ModTime()})
+				mdArticle = append(mdArticle,
+					ArticleInfo{markdownFile.Name(),CategoriesDir.Name(),markdownFile.ModTime(),nil,""})
 
 			}
 
 			Loop :
 
-			Categories = append(Categories, Category{CategoriesDir.Name(),len(CategoriesMdFile),CategoriesDir.ModTime(),mdArticle})
+			Categories = append(Categories, Category{CategoriesDir.Name(),len(CategoriesMdFile),mdArticle})
 		}
 	}
 

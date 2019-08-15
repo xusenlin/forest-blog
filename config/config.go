@@ -56,5 +56,5 @@ func init()  {
 	if jsonErr != nil {
 		panic(err)
 	}
-	fmt.Println("初始化配置完成...")
+	fmt.Println("init config...")
 }
