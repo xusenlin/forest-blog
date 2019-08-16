@@ -9,8 +9,8 @@ import (
 func InitRoute()  {
 
 	http.HandleFunc("/", controller.Index)
-	//http.HandleFunc("/categories", controller.Categories)
-	//http.HandleFunc("/works", controller.Works)
+	http.HandleFunc("/categories", controller.Categories)
+	http.HandleFunc("/works", controller.Works)
 	//http.HandleFunc("/about", controller.About)
 	////二级页面
 	//http.HandleFunc("/article", controller.Article)

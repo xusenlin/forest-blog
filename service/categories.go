@@ -22,7 +22,7 @@ func GetCategories() (models.Categories, error) {
 			continue
 		}
 		var categoryContent models.Category
-		markdownList, err := models.GetMarkdownListByCache(category.Name())
+		markdownList, err := models.GetMarkdownListByCache("/" + category.Name())
 
 		if err != nil {
 			return content, err

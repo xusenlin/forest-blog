@@ -7,7 +7,7 @@
                     <h3><img class="icon" src="/public/img/folder.svg" alt=""> {{ .Title }} <sub>({{ .Number }})</sub></h3>
                 </a>
                 <article class="categories-article">
-                    {{range .Article}}
+                    {{range .MarkdownFileList}}
                         <a href="/article?path={{ .Category }}/{{ .Title }}">{{ .Title }}</a>
                     {{end}}
                 </article>
