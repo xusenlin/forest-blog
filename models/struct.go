@@ -28,7 +28,7 @@ type MarkdownPagination struct {
 	Markdowns   MarkdownList
 	Total       int
 	CurrentPage int
-	PageNum     []int
+	PageNumber  []int
 }
 
 type Category struct {
@@ -49,7 +49,12 @@ func (t *Time) UnmarshalJSON(b []byte) error {
 }
 
 func (t Time) MarshalJSON() ([]byte, error) {
-	return []byte(time.Time(t).Format("\"2006-01-02 15:04\"")), nil
+
+	return []byte(t.Format("\"2006-01-02 15:04\"")), nil
+}
+
+func (t Time) Format(layout string) string {
+	return time.Time(t).Format(layout)
 }
 
 func (m MarkdownList) Len() int { return len(m) }

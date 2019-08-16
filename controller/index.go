@@ -2,45 +2,47 @@ package controller
 
 import (
 	"fmt"
-	"github.com/xusenlin/go_blog/models"
+	"github.com/xusenlin/go_blog/config"
+	"github.com/xusenlin/go_blog/helper"
+	"github.com/xusenlin/go_blog/service"
 	"net/http"
+	"strconv"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
 
-	_,err := models.GetMarkdownListByCache("/")
-	if err != nil{
-		fmt.Println(err)
-		return
+	err := r.ParseForm()
+	if err != nil {
+		helper.WriteErrorHtml(w,err.Error())
 	}
-	fmt.Println("1")
-	_,_ = w.Write([]byte("hell word"))
-	return
-	//fmt.Println(content)
 
-	//_ = r.ParseForm()
-	//
-	//page,pageErr := strconv.Atoi(r.Form.Get("page"))
-	//if pageErr != nil{
-	//	page = 1
-	//}
-	//
-	//template, templateErr := helper.HtmlTemplate("index")
-	//if templateErr != nil {
-	//	_,_ = w.Write(helper.ErrorHtml(templateErr.Error()))
-	//	return
-	//}
+	page,err := strconv.Atoi(r.Form.Get("page"))
+	if err != nil{
+		page = 1
+	}
 
-	//err := template.Execute(w, map[string]interface{}{
-	//	"Title":"首页",
-	//	"Data": models.GetMarkdownListByCache(page,""),
-	//	"Config":config.Cfg,
-	//})
-	//
-	//if err != nil {
-	//	_,_ = w.Write(helper.ErrorHtml(err.Error()))
-	//	return
-	//}
+	template, err := helper.HtmlTemplate("index")
+	if err != nil {
+		helper.WriteErrorHtml(w,err.Error())
+	}
+
+	markdownPagination,err := service.GetArticleList(page,"/")
+	if err != nil {
+		helper.WriteErrorHtml(w,err.Error())
+	}
+
+	err = template.Execute(w, map[string]interface{}{
+		"Title":"首页",
+		"Data":markdownPagination,
+		"Config":config.Cfg,
+	})
+
+	fmt.Println(markdownPagination)
+
+	if err != nil {
+		helper.WriteErrorHtml(w,err.Error())
+	}
+
 }
 
 //func Categories(w http.ResponseWriter, r *http.Request)  {

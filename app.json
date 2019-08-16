@@ -3,7 +3,7 @@
   "author": "XuSenLin",
   "icp": "黔ICP备15004120号",
   "port": "80",
-  "pageSize": 6,
+  "pageSize": 2,
   "documentPath": "resources/blog_docs",
   "htmlKeywords": "forest blog,Golang,前端",
   "htmlDescription": "Xu Senlin's Personal blog",

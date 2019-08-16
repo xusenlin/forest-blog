@@ -13,115 +13,99 @@ import (
 	"strings"
 )
 
-func GetMarkdown(path string) (Markdown, error) {
-	//path=>categoryName/xxx.md
+func readMarkdown(path string) (Markdown, MarkdownDetails, error) {
+	//path=>/categoryName/xxx.md
 	fullPath := config.Cfg.DocumentPath + "/content" + path
 
-	categoryName := strings.Replace(path,"/","",1)
+	categoryName := strings.Replace(path, "/", "", 1)
 
-	if strings.Index(categoryName,"/") == -1{ //文件在根目录下(content/)没有分类名称
-		categoryName = ""
-	}else {
-		//虽然支持md文件无限层级，但是分类只算第一层目录，想做无限级分类的，但是考虑到每一级都可以放置md文件,分类页面不美观。
+	if strings.Index(categoryName, "/") == -1 { //文件在根目录下(content/)没有分类名称
+		categoryName = "/"
+	} else {
 		categoryName = strings.Split(categoryName, "/")[0]
 	}
 
+	var (
+		content     Markdown
+		fullContent MarkdownDetails
+	)
+
 	markdownFile, fileErr := os.Stat(fullPath)
 
-	var content Markdown
-
 	if fileErr != nil {
-		return content, fileErr
+		return content, fullContent, fileErr
 	}
 	if markdownFile.IsDir() {
-		return content, errors.New("this path is Dir")
+		return content, fullContent, errors.New("this path is Dir")
 	}
 	markdown, mdErr := ioutil.ReadFile(fullPath)
 
 	if mdErr != nil {
-		return content, mdErr
+		return content, fullContent, mdErr
 	}
 	markdown = bytes.TrimSpace(markdown)
+
+	content.Path = path
 
 	content.Category = categoryName
 	content.Title = markdownFile.Name()
 	content.Date = Time(markdownFile.ModTime())
-	content.Path = path
 
 	desc := []rune(string(markdown))
 	descLen := len(desc)
 	if descLen <= 150 {
 		content.Description = string(desc[0:descLen])
 	}else {
-		content.Description = string(desc[0:150])
+		content.Description = string(desc[0:200])
 	}
+
+	fullContent.Markdown = content
+	fullContent.Body = string(markdown)
+
 
 	if ! bytes.HasPrefix(markdown, []byte("```json")) {
-		return content, nil
-	}
-
-	markdown = bytes.Replace(markdown, []byte("```json"), []byte(""), 1)
-	markdownInfo := bytes.SplitN(markdown, []byte("```"), 2)[0]
-
-	if err := json.Unmarshal(bytes.TrimSpace(markdownInfo), &content); err != nil {
-		return content, err
-	}
-
-	return content, nil
-}
-
-func GetMarkdownDetails(path string) (MarkdownDetails, error) {
-	//path=>categoryName/xxx.md
-	fullPath := config.Cfg.DocumentPath + "/content/" + path
-
-	categoryName := strings.Replace(path,"/","",1)
-
-	if strings.Index(categoryName,"/") == -1{ //文件在根目录下(content/)没有分类名称
-		categoryName = ""
-	}else {
-		categoryName = strings.Split(categoryName, "/")[0]
-	}
-
-	markdownFile, fileErr := os.Stat(fullPath)
-
-	var content MarkdownDetails
-
-	if fileErr != nil {
-		return content, fileErr
-	}
-	if markdownFile.IsDir() {
-		return content, errors.New("this path is Dir")
-	}
-	markdown, mdErr := ioutil.ReadFile(fullPath)
-
-	if mdErr != nil {
-		return content, mdErr
-	}
-	markdown = bytes.TrimSpace(markdown)
-
-	content.Path = path
-	content.Body = string(markdown)
-	content.Category = categoryName
-	content.Title = markdownFile.Name()
-	content.Date = Time(markdownFile.ModTime())
-
-	if ! bytes.HasPrefix(markdown, []byte("```json")) {
-		return content, nil
+		return content, fullContent, nil
 	}
 
 	markdown = bytes.Replace(markdown, []byte("```json"), []byte(""), 1)
 	markdownArrInfo := bytes.SplitN(markdown, []byte("```"), 2)
 
-	content.Body = string(markdownArrInfo[1])
-
 	if err := json.Unmarshal(bytes.TrimSpace(markdownArrInfo[0]), &content); err != nil {
+		return content, fullContent, err
+	}
+
+	content.Path = path //保证Path不被用户json赋值，json不能添加`json:"-"`忽略，否则编码到缓存的时候会被忽悠。
+	fullContent.Markdown = content
+	fullContent.Body = string(markdownArrInfo[1])
+
+	return content, fullContent, nil
+}
+
+//读取路径下的md文件的部分信息json
+func GetMarkdown(path string) (Markdown, error) {
+
+	content, _, err := readMarkdown(path)
+
+	if err != nil {
+		return content, err
+	}
+	return content, nil
+}
+
+//读取路径下的md文件完整信息
+func GetMarkdownDetails(path string) (MarkdownDetails, error) {
+
+	_, content, err := readMarkdown(path)
+
+	if err != nil {
 		return content, err
 	}
 
 	return content, nil
 }
 
-func GetMarkdownList(dir string) (MarkdownList, error) {
+//递归获取md文件信息
+func getMarkdownList(dir string) (MarkdownList, error) {
 	//path=>categoryName
 	var fullDir string
 	fullDir = config.Cfg.DocumentPath + "/content" + dir
@@ -143,7 +127,7 @@ func GetMarkdownList(dir string) (MarkdownList, error) {
 		}
 		if fileInfo.IsDir() {
 
-			subMdList, err := GetMarkdownList(subDir)
+			subMdList, err := getMarkdownList(subDir)
 			if err != nil {
 				return mdList, err
 			}
@@ -174,7 +158,7 @@ func GetMarkdownListByCache(dir string) (MarkdownList, error) {
 		return content, nil
 	}
 	fmt.Println("没有缓存！！")
-	content, err := GetMarkdownList(dir)
+	content, err := getMarkdownList(dir)
 
 	if err != nil {
 		return content, err

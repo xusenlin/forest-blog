@@ -9,14 +9,13 @@ import (
 
 const ConfigFilePath = "app.json"
 
-
 type Config struct {
 	SiteName string `json:"siteName"`
 
 	Author string `json:"author"`
-	
+
 	Icp string `json:"icp"`
-	
+
 	Port string `json:"port"`
 
 	PageSize int `json:"pageSize"`
@@ -30,31 +29,30 @@ type Config struct {
 	CategoryListFileNumber int `json:"categoryListFileNumber"`
 }
 
-
-
-
 var Cfg Config
 
 var CurrentDir string
 
-func init()  {
+func init() {
 	var pwdErr error
-	CurrentDir,pwdErr = os.Getwd()
+
+	CurrentDir, pwdErr = os.Getwd()
 
 	if pwdErr != nil {
 		panic(pwdErr)
 	}
 
-	configFile,err := ioutil.ReadFile(ConfigFilePath)
+	configFile, err := ioutil.ReadFile(ConfigFilePath)
 
 	if err != nil {
 		panic(err)
 	}
 
-	jsonErr := json.Unmarshal(configFile,&Cfg)
+	jsonErr := json.Unmarshal(configFile, &Cfg)
 
 	if jsonErr != nil {
 		panic(err)
 	}
+
 	fmt.Println("init config...")
 }
