@@ -20,6 +20,8 @@ type Config struct {
 
 	PageSize int `json:"pageSize"`
 
+	DescriptionLen int `json:"descriptionLen"`
+
 	DocumentPath string `json:"documentPath"`
 
 	HtmlKeywords string `json:"htmlKeywords"`

@@ -46,29 +46,22 @@ func readMarkdown(path string) (Markdown, MarkdownDetails, error) {
 	markdown = bytes.TrimSpace(markdown)
 
 	content.Path = path
-
 	content.Category = categoryName
 	content.Title = markdownFile.Name()
 	content.Date = Time(markdownFile.ModTime())
 
-	desc := []rune(string(markdown))
-	descLen := len(desc)
-	if descLen <= 150 {
-		content.Description = string(desc[0:descLen])
-	}else {
-		content.Description = string(desc[0:200])
-	}
-
 	fullContent.Markdown = content
 	fullContent.Body = string(markdown)
 
-
 	if ! bytes.HasPrefix(markdown, []byte("```json")) {
+		content.Description = cropDesc(markdown)
 		return content, fullContent, nil
 	}
 
 	markdown = bytes.Replace(markdown, []byte("```json"), []byte(""), 1)
 	markdownArrInfo := bytes.SplitN(markdown, []byte("```"), 2)
+
+	content.Description = cropDesc(markdownArrInfo[1])
 
 	if err := json.Unmarshal(bytes.TrimSpace(markdownArrInfo[0]), &content); err != nil {
 		return content, fullContent, err
@@ -81,6 +74,16 @@ func readMarkdown(path string) (Markdown, MarkdownDetails, error) {
 	return content, fullContent, nil
 }
 
+func cropDesc(c []byte) string {
+	content := []rune(string(c))
+	contentLen := len(content)
+
+	if contentLen <= config.Cfg.DescriptionLen {
+		return string(content[0:contentLen])
+	}
+
+	return string(content[0:config.Cfg.DescriptionLen])
+}
 //读取路径下的md文件的部分信息json
 func GetMarkdown(path string) (Markdown, error) {
 
@@ -178,4 +181,17 @@ func GetMarkdownListByCache(dir string) (MarkdownList, error) {
 	}
 
 	return content, nil
+}
+
+func ReadMarkdownBody(path string) (string ,error){
+
+	fullPath := config.Cfg.DocumentPath  + path
+
+	markdown, err := ioutil.ReadFile(fullPath)
+
+	if err != nil {
+		return "" ,err
+	}
+
+	return string(markdown) ,nil
 }

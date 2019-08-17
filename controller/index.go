@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/models"
@@ -63,7 +62,7 @@ func Categories(w http.ResponseWriter, r *http.Request) {
 		"Data":   categories,
 		"Config": config.Cfg,
 	})
-	fmt.Println(categories)
+
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
 		return
@@ -72,49 +71,47 @@ func Categories(w http.ResponseWriter, r *http.Request) {
 
 func Works(w http.ResponseWriter, r *http.Request) {
 
-	markdown, err := models.GetMarkdownDetails("/Works.md")
+	template, err := helper.HtmlTemplate("works")
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
 	}
 
-	template, err := helper.HtmlTemplate("works")
+	markdown, err := models.ReadMarkdownBody("/Works.md")
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
 	}
 
 	err = template.Execute(w, map[string]interface{}{
 		"Title":  "作品",
-		"Body":   markdown.Body,
+		"Data":   markdown,
+		"Config": config.Cfg,
+	})
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+}
+
+func About(w http.ResponseWriter, r *http.Request) {
+
+	template, err := helper.HtmlTemplate("about")
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	markdown, err := models.ReadMarkdownBody("/About.md")
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  "关于",
+		"Data":   markdown,
 		"Config": config.Cfg,
 	})
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
 	}
 }
-
-//
-//func About(w http.ResponseWriter, r *http.Request)  {
-//
-//	markdown,mdErr := models.GetMarkdownByPath("About.md")
-//	if mdErr != nil {
-//		_,_ = w.Write(helper.ErrorHtml(mdErr.Error()))
-//		return
-//	}
-//
-//	template, templateErr := helper.HtmlTemplate("about")
-//	if templateErr != nil {
-//		_,_ = w.Write(helper.ErrorHtml(templateErr.Error()))
-//		return
-//	}
-//
-//	err := template.Execute(w, map[string]interface{}{
-//		"Title": "关于",
-//		"Data": string(markdown),
-//		"Config":config.Cfg,
-//	})
-//	if err != nil {
-//		_,_ = w.Write(helper.ErrorHtml(err.Error()))
-//		return
-//	}
-//
-//}

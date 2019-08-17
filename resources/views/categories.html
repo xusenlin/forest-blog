@@ -8,7 +8,7 @@
                 </a>
                 <article class="categories-article">
                     {{range .MarkdownFileList}}
-                        <a href="/article?path={{ .Category }}/{{ .Title }}">{{ .Title }}</a>
+                        <a href="/article?path=/{{ .Category }}/{{ .Title }}">{{ .Title }}</a>
                     {{end}}
                 </article>
             </div>

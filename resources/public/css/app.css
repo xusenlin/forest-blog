@@ -98,12 +98,18 @@ a:hover{
 
 
 .footer{
+    color: #999;
     display: flex;
     height: 54px;
+    line-height: 1;
     align-items: center;
     justify-content: center;
 }
 
+.footer a{
+    color: #999;
+    margin: 0 8px;
+}
 pre{
     background-color: #f6f8fa;
     border-radius: 3px;
