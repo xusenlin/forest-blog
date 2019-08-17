@@ -9,6 +9,7 @@
             </h2>
             <div class="article-info">
             {{ if ne .Category "" }}
+{{/*如果文档放在根目录不会出现分类*/}}
                 <span>
                     <img class="icon" src="/public/img/folder.svg" alt="">
                     <span>
@@ -17,7 +18,7 @@
                     </span>
                 </span>
                 <span class="divider-line"></span>
-            {{ end }}
+                {{ end }}
                 <span>
                     <img class="icon" src="/public/img/date.svg" alt="">
                     <span>发表于{{ .Date.Format "2006-01-02 15:04" }}</span>
