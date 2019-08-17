@@ -160,7 +160,7 @@ func GetMarkdownListByCache(dir string) (MarkdownList, error) {
 	if cacheErr == nil && json.Unmarshal(cacheFile, &content) == nil {
 		return content, nil
 	}
-	fmt.Println("没有缓存！！")
+
 	content, err := getMarkdownList(dir)
 
 	if err != nil {
