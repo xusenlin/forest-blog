@@ -5,9 +5,10 @@
     {{range .Data.Markdowns }}
         <li>
             <h2>
-                <a class="title" href="/article?path=/{{ .Category }}/{{ .Title }}">{{ .Title }}</a>
+                <a class="title" href="/article?path={{ .Path }}">{{ .Title }}</a>
             </h2>
             <div class="article-info">
+            {{ if ne .Category "" }}
                 <span>
                     <img class="icon" src="/public/img/folder.svg" alt="">
                     <span>
@@ -16,13 +17,14 @@
                     </span>
                 </span>
                 <span class="divider-line"></span>
+            {{ end }}
                 <span>
                     <img class="icon" src="/public/img/date.svg" alt="">
                     <span>发表于{{ .Date.Format "2006-01-02 15:04" }}</span>
                 </span>
             </div>
             <div class="description"> {{ .Description }}...</div>
-            <a class="read-all" href="/article?path=/{{ .Path }}/{{ .Title }}" rel="contents">
+            <a class="read-all" href="/article?path={{ .Path }}" rel="contents">
                 阅读全文 »
             </a>
             <div class="article-eof"></div>

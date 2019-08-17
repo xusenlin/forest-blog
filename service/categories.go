@@ -35,7 +35,8 @@ func GetCategories() (models.Categories, error) {
 			categoryListFileNumber = config.Cfg.CategoryListFileNumber
 		}
 
-		categoryContent.Title = category.Name()
+		categoryContent.Name = category.Name()
+		categoryContent.Path = "/" + category.Name()
 		categoryContent.Number = listLen
 		categoryContent.MarkdownFileList = markdownList[0:categoryListFileNumber]
 

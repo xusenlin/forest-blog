@@ -20,7 +20,7 @@ func readMarkdown(path string) (Markdown, MarkdownDetails, error) {
 	categoryName := strings.Replace(path, "/", "", 1)
 
 	if strings.Index(categoryName, "/") == -1 { //文件在根目录下(content/)没有分类名称
-		categoryName = "/"
+		categoryName = ""
 	} else {
 		categoryName = strings.Split(categoryName, "/")[0]
 	}

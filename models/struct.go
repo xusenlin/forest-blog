@@ -32,7 +32,8 @@ type MarkdownPagination struct {
 }
 
 type Category struct {
-	Title            string
+	Name            string
+	Path             string
 	Number           int
 	MarkdownFileList MarkdownList
 }

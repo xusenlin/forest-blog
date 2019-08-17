@@ -4,7 +4,10 @@ import (
 	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/models"
+	"github.com/xusenlin/go_blog/service"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 func Article(w http.ResponseWriter, r *http.Request) {
@@ -36,29 +39,35 @@ func Article(w http.ResponseWriter, r *http.Request) {
 		helper.WriteErrorHtml(w, err.Error())
 	}
 }
-//
-//func CategoryArticle(w http.ResponseWriter, r *http.Request) {
-//	_ = r.ParseForm()
-//
-//	categoryName := r.Form.Get("name")
-//	page, pageErr := strconv.Atoi(r.Form.Get("page"))
-//	if pageErr != nil {
-//		page = 1
-//	}
-//
-//	template, templateErr := helper.HtmlTemplate("category")
-//	if templateErr != nil {
-//		_, _ = w.Write(helper.ErrorHtml(templateErr.Error()))
-//		return
-//	}
-//
-//	err := template.Execute(w, map[string]interface{}{
-//		"Title":  categoryName,
-//		"Data":   models.GetArticles(page, categoryName),
-//		"Config": config.Cfg,
-//	})
-//	if err != nil {
-//		_, _ = w.Write(helper.ErrorHtml(err.Error()))
-//		return
-//	}
-//}
+
+func CategoryArticle(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+	template, err := helper.HtmlTemplate("category")
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	categoryName := r.Form.Get("name")
+	page, err := strconv.Atoi(r.Form.Get("page"))
+	if err != nil {
+		page = 1
+	}
+	content,err := service.GetArticleList(page, categoryName)
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  strings.Replace(categoryName,"/","",1),
+		"Data":   content,
+		"Config": config.Cfg,
+	})
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+}
