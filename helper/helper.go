@@ -1,12 +1,11 @@
 package helper
 
 import (
-	"bufio"
 	"fmt"
 	"github.com/xusenlin/go_blog/config"
 	"html/template"
-	"io"
 	"net/http"
+	"os"
 	"os/exec"
 	"time"
 )
@@ -47,7 +46,9 @@ func BuildArrByInt(num int) []int {
 
 func StartTicker(f func()) {
 
-	ticker := time.NewTicker(time.Hour * 8)
+	updateTime := time.Duration(config.Cfg.UpdateArticleInterval)
+
+	ticker := time.NewTicker(time.Hour * updateTime)
 
 	go func() {
 		for _ = range ticker.C {
@@ -57,28 +58,21 @@ func StartTicker(f func()) {
 }
 
 func UpdateArticle() {
+
 	cmd := exec.Command("git", "pull")
-	//显示运行的命令
 	cmd.Dir = config.CurrentDir + "/" + config.Cfg.DocumentPath
 
-	stdout, err := cmd.StdoutPipe()
-
+	err := cmd.Start()
 	if err != nil {
+		fmt.Println(err)
+	}
+	return
+}
+
+func ClearCache()  {
+	err := os.RemoveAll("cache")
+	if err != nil{
 		fmt.Println(err)
 		return
 	}
-
-	cmd.Start()
-
-	reader := bufio.NewReader(stdout)
-
-	for {
-		line, err2 := reader.ReadString('\n')
-		if err2 != nil || io.EOF == err2 {
-			break
-		}
-		fmt.Println(line)
-	}
-	cmd.Wait()
-	return
 }

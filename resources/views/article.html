@@ -21,6 +21,5 @@
     <script>
         document.getElementById('article').innerHTML = marked({{  .Data.Body }});
     </script>
-    <script src="/public/js/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/public/js/prism.js"></script>
 {{template "footer" .}}

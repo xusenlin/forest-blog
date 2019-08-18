@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/xusenlin/go_blog/config"
 	"time"
 )
 
@@ -41,7 +42,7 @@ type Category struct {
 type Categories []Category
 
 func (t *Time) UnmarshalJSON(b []byte) error {
-	date, err := time.ParseInLocation("\"2006-01-02 15:04\"", string(b), time.Local)
+	date, err := time.ParseInLocation(`"`+config.Cfg.TimeLayout+`"`, string(b), time.Local)
 	if err != nil {
 		return nil
 	}
@@ -51,7 +52,7 @@ func (t *Time) UnmarshalJSON(b []byte) error {
 
 func (t Time) MarshalJSON() ([]byte, error) {
 
-	return []byte(t.Format("\"2006-01-02 15:04\"")), nil
+	return []byte(t.Format(`"`+config.Cfg.TimeLayout+`"`)), nil
 }
 
 func (t Time) Format(layout string) string {

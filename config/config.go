@@ -16,7 +16,11 @@ type Config struct {
 
 	Icp string `json:"icp"`
 
+	TimeLayout string `json:"timeLayout"`
+
 	Port string `json:"port"`
+
+	UpdateArticleInterval int `json:"updateArticleInterval"`
 
 	PageSize int `json:"pageSize"`
 

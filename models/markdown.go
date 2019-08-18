@@ -174,6 +174,15 @@ func GetMarkdownListByCache(dir string) (MarkdownList, error) {
 		return content, err
 	}
 
+	cacheDir := config.CurrentDir + "/cache"
+	cacheInfo,err := os.Stat(cacheDir)
+
+	if err != nil || !cacheInfo.IsDir() {
+		if os.Mkdir(cacheDir,os.ModePerm) != nil{
+			return content, err
+		}
+	}
+
 	err = ioutil.WriteFile(cacheFilePath, markdownListJson, os.ModePerm)
 
 	if err != nil {
