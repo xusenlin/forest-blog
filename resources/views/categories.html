@@ -3,12 +3,12 @@
     <div class="categories">
         {{range .Data}}
             <div class="categories-card">
-                <a href="/category?name={{ .Title }}">
-                    <h3><img class="icon" src="/public/img/folder.svg" alt=""> {{ .Title }} <sub>({{ .Number }})</sub></h3>
+                <a href="/category?name={{ .Path }}">
+                    <h3><img class="icon" src="/public/img/folder.svg" alt=""> {{ .Name }} <sub>({{ .Number }})</sub></h3>
                 </a>
                 <article class="categories-article">
-                    {{range .Article}}
-                        <a href="/article?path={{ .Category }}/{{ .Title }}">{{ .Title }}</a>
+                    {{range .MarkdownFileList}}
+                        <a href="/article?path={{ .Path }}">{{ .Title }}</a>
                     {{end}}
                 </article>
             </div>

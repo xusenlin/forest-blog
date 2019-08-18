@@ -2,27 +2,38 @@
 <div class="sub-title">- Categories > <span class="sub">{{ .Title }}</span>  -</div>
 
 <ul class="articles">
-    {{range .Data.Articles }}
+    {{range .Data.Markdowns }}
         <li>
-            <a class="title" href="/article?path={{ .Category }}/{{ .Title }}">{{ .Title }}</a>
+            <h2>
+                <a class="title" href="/article?path={{ .Path }}">{{ .Title }}</a>
+            </h2>
             <div class="article-info">
-               <a class="category" href="/category?name={{ .Category }}">
-                   <img class="icon" src="/public/img/folder.svg" alt="">
-                   {{ .Category }}
-               </a>
-                <div class="date">
+                <span>
+                    <img class="icon" src="/public/img/folder.svg" alt="">
+                    <span>
+                        分类于
+                        <a class="category" href="/category?name=/{{ .Category }}">{{ .Category }}</a>
+                    </span>
+                </span>
+                <span class="divider-line"></span>
+                <span>
                     <img class="icon" src="/public/img/date.svg" alt="">
-                    {{ .CreatedAt.Format "2006-01-02 15:04" }}
-                </div>
+                    <span>发表于{{ .Date.Format "2006-01-02 15:04" }}</span>
+                </span>
             </div>
+            <div class="description"> {{ .Description }}...</div>
+            <a class="read-all" href="/article?path={{ .Path }}" rel="contents">
+                阅读全文 »
+            </a>
+            <div class="article-eof"></div>
         </li>
     {{end}}
 </ul>
 
 <ul class="pagination">
-    {{range $page := .Data.PageNum }}
+    {{range $page := .Data.PageNumber }}
         <li class="{{ if eq $page $.Data.CurrentPage }}active{{end}}">
-            <a href="/category?page={{ $page }}&name={{ $.Title }}">{{ $page }}</a>
+            <a href="/category?page={{ $page }}&name={{ $.Path }}">{{ $page }}</a>
         </li>
     {{end}}
 </ul>

@@ -4,67 +4,70 @@ import (
 	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/models"
+	"github.com/xusenlin/go_blog/service"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
-func Article(w http.ResponseWriter, r *http.Request)  {
+func Article(w http.ResponseWriter, r *http.Request) {
 
-	type ArticleInf struct {
-		Title string
-		Article models.Article
+	err := r.ParseForm()
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
 	}
-
-	r.ParseForm()
 
 	path := r.Form.Get("path")
 
-
-	article,readErr := models.GetArticle("content/" + path)
-	if readErr != nil {
-		w.Write(helper.ErrorHtml(readErr.Error()))
-		return
-	}
-
-	template, templateErr := helper.HtmlTemplate("article")
-	if templateErr != nil {
-		w.Write(helper.ErrorHtml(templateErr.Error()))
-		return
-	}
-
-	err := template.Execute(w, map[string]interface{}{
-		"Title":"文章详情",
-		"Data": article,
-		"Config":config.Cfg,
-	})
+	template, err := helper.HtmlTemplate("article")
 	if err != nil {
-		w.Write(helper.ErrorHtml(err.Error()))
-		return
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	article, err := models.GetMarkdownDetails(path)
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  "文章详情",
+		"Data":   article,
+		"Config": config.Cfg,
+	})
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
 	}
 }
 
-func CategoryArticle(w http.ResponseWriter, r *http.Request)  {
-	r.ParseForm()
+func CategoryArticle(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+	template, err := helper.HtmlTemplate("category")
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
 
 	categoryName := r.Form.Get("name")
-	page,pageErr := strconv.Atoi(r.Form.Get("page"))
-	if pageErr != nil{
+	page, err := strconv.Atoi(r.Form.Get("page"))
+	if err != nil {
 		page = 1
 	}
-
-	template, templateErr := helper.HtmlTemplate("category")
-	if templateErr != nil {
-		w.Write(helper.ErrorHtml(templateErr.Error()))
-		return
+	content,err := service.GetArticleList(page, categoryName)
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
 	}
 
-	err := template.Execute(w, map[string]interface{}{
-		"Title":categoryName,
-		"Data": models.GetArticles(page,categoryName),
-		"Config":config.Cfg,
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  strings.Replace(categoryName,"/","",1),
+		"Data":   content,
+		"Config": config.Cfg,
 	})
 	if err != nil {
-		w.Write(helper.ErrorHtml(err.Error()))
-		return
+		helper.WriteErrorHtml(w, err.Error())
 	}
 }

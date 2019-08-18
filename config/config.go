@@ -9,17 +9,22 @@ import (
 
 const ConfigFilePath = "app.json"
 
-
 type Config struct {
 	SiteName string `json:"siteName"`
 
 	Author string `json:"author"`
-	
+
 	Icp string `json:"icp"`
-	
+
+	TimeLayout string `json:"timeLayout"`
+
 	Port string `json:"port"`
 
+	UpdateArticleInterval int `json:"updateArticleInterval"`
+
 	PageSize int `json:"pageSize"`
+
+	DescriptionLen int `json:"descriptionLen"`
 
 	DocumentPath string `json:"documentPath"`
 
@@ -27,34 +32,33 @@ type Config struct {
 
 	HtmlDescription string `json:"htmlDescription"`
 
-	MaxNumberArticleOfCategory int `json:"maxNumberArticleOfCategory"`
+	CategoryListFileNumber int `json:"categoryListFileNumber"`
 }
-
-
-
 
 var Cfg Config
 
 var CurrentDir string
 
-func init()  {
+func init() {
 	var pwdErr error
-	CurrentDir,pwdErr = os.Getwd()
+
+	CurrentDir, pwdErr = os.Getwd()
 
 	if pwdErr != nil {
 		panic(pwdErr)
 	}
 
-	configFile,err := ioutil.ReadFile(ConfigFilePath)
+	configFile, err := ioutil.ReadFile(ConfigFilePath)
 
 	if err != nil {
 		panic(err)
 	}
 
-	jsonErr := json.Unmarshal(configFile,&Cfg)
+	jsonErr := json.Unmarshal(configFile, &Cfg)
 
 	if jsonErr != nil {
 		panic(err)
 	}
-	fmt.Println("初始化配置完成...")
+
+	fmt.Println("init config...")
 }

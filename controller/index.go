@@ -4,103 +4,114 @@ import (
 	"github.com/xusenlin/go_blog/config"
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/models"
+	"github.com/xusenlin/go_blog/service"
 	"net/http"
 	"strconv"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
 
-	page,pageErr := strconv.Atoi(r.Form.Get("page"))
-	if pageErr != nil{
+	err := r.ParseForm()
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	page, err := strconv.Atoi(r.Form.Get("page"))
+	if err != nil {
 		page = 1
 	}
 
-	template, templateErr := helper.HtmlTemplate("index")
-	if templateErr != nil {
-		w.Write(helper.ErrorHtml(templateErr.Error()))
-		return
+	template, err := helper.HtmlTemplate("index")
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
 	}
 
-	err := template.Execute(w, map[string]interface{}{
-		"Title":"首页",
-		"Data": models.GetArticles(page,""),
-		"Config":config.Cfg,
+	markdownPagination, err := service.GetArticleList(page, "/")
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  "首页",
+		"Data":   markdownPagination,
+		"Config": config.Cfg,
 	})
 
 	if err != nil {
-		w.Write(helper.ErrorHtml(err.Error()))
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+}
+
+func Categories(w http.ResponseWriter, r *http.Request) {
+
+	template, err := helper.HtmlTemplate("categories")
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+		return
+	}
+
+	categories, err := service.GetCategories()
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+		return
+	}
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  "分类",
+		"Data":   categories,
+		"Config": config.Cfg,
+	})
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
 		return
 	}
 }
 
-func Categories(w http.ResponseWriter, r *http.Request)  {
+func Works(w http.ResponseWriter, r *http.Request) {
 
-	template, templateErr := helper.HtmlTemplate("categories")
-
-	if templateErr != nil {
-		w.Write(helper.ErrorHtml(templateErr.Error()))
-		return
-	}
-
-	err := template.Execute(w, map[string]interface{}{
-		"Title":"分类",
-		"Data": models.GetCategoriesInfo(),
-		"Config":config.Cfg,
-	})
+	template, err := helper.HtmlTemplate("works")
 	if err != nil {
-		w.Write(helper.ErrorHtml(err.Error()))
-		return
+		helper.WriteErrorHtml(w, err.Error())
 	}
+
+	markdown, err := models.ReadMarkdownBody("/Works.md")
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  "作品",
+		"Data":   markdown,
+		"Config": config.Cfg,
+	})
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+	}
+
 }
 
-func Works(w http.ResponseWriter, r *http.Request)  {
+func About(w http.ResponseWriter, r *http.Request) {
 
-	markdown,mdErr := models.GetMarkdownByPath("Works.md")
-	if mdErr != nil {
-		w.Write(helper.ErrorHtml(mdErr.Error()))
-		return
+	template, err := helper.HtmlTemplate("about")
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
 	}
 
-	template, templateErr := helper.HtmlTemplate("works")
+	markdown, err := models.ReadMarkdownBody("/About.md")
 
-	if templateErr != nil {
-		w.Write(helper.ErrorHtml(templateErr.Error()))
-		return
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
 	}
 
-	err := template.Execute(w, map[string]interface{}{
-		"Title": "作品",
-		"Body": string(markdown),
-		"Config":config.Cfg,
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  "关于",
+		"Data":   markdown,
+		"Config": config.Cfg,
 	})
 	if err != nil {
-		w.Write(helper.ErrorHtml(err.Error()))
-		return
+		helper.WriteErrorHtml(w, err.Error())
 	}
-}
-
-func About(w http.ResponseWriter, r *http.Request)  {
-
-	markdown,mdErr := models.GetMarkdownByPath("About.md")
-	if mdErr != nil {
-		w.Write(helper.ErrorHtml(mdErr.Error()))
-		return
-	}
-
-	template, templateErr := helper.HtmlTemplate("about")
-	if templateErr != nil {
-		w.Write(helper.ErrorHtml(templateErr.Error()))
-		return
-	}
-
-	err := template.Execute(w, map[string]interface{}{
-		"Title": "关于", "Body": string(markdown),
-		"Config":config.Cfg,
-	})
-	if err != nil {
-		w.Write(helper.ErrorHtml(err.Error()))
-		return
-	}
-
 }

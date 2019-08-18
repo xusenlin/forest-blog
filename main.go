@@ -10,14 +10,17 @@ import (
 
 func main() {
 
+
 	helper.StartTicker(func() {
 		helper.UpdateArticle()
+		helper.ClearCache()
 	})
 
 	routes.InitRoute()
 
-	fmt.Println("服务已经启动 Listening...")
+	fmt.Println("Listening...")
 
-	http.ListenAndServe( ":" + config.Cfg.Port , nil)
-
+	if err := http.ListenAndServe( ":" + config.Cfg.Port , nil); err != nil{
+		fmt.Println("ServeErr:",err)
+	}
 }

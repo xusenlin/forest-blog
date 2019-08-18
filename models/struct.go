@@ -1,47 +1,66 @@
 package models
 
 import (
+	"github.com/xusenlin/go_blog/config"
 	"time"
 )
 
-type Article struct {
-	// 文章的标题
-	Title string
-	// 创建时间
-	CreatedAt time.Time `toml:"created_at"`
-	// 所属分类的名称
-	Category string
-	// 文章主题内容， markdown
+type Tag string
+
+type Time time.Time
+
+type Markdown struct {
+	Title       string `json:"title"`
+	Date        Time   `json:"date"`
+	Description string `json:"description"`
+	Tags        []Tag  `json:"tags"`
+	Author      string `json:"author"`
+	Category    string `json:"category"`
+	Path        string `json:"path"`
+}
+
+type MarkdownDetails struct {
+	Markdown
 	Body string
-	// 文章文件路由
-	Path string
 }
+type MarkdownList []Markdown
 
-type ArticleInfo struct {
-	Title string
-	Category string	// 所属分类的名称
-	CreatedAt time.Time
-}
-
-type ArticlesPagination struct {
-	Articles []ArticleInfo
-	Total int
+type MarkdownPagination struct {
+	Markdowns   MarkdownList
+	Total       int
 	CurrentPage int
-	PageNum []int
+	PageNumber  []int
 }
 
-type Articles []ArticleInfo
-
-
-func (a Articles) Len() int {
-	return len(a)
+type Category struct {
+	Name            string
+	Path             string
+	Number           int
+	MarkdownFileList MarkdownList
 }
 
-func (a Articles) Less(i, j int) bool {
-	return a[i].CreatedAt.After(a[j].CreatedAt)
+type Categories []Category
+
+func (t *Time) UnmarshalJSON(b []byte) error {
+	date, err := time.ParseInLocation(`"`+config.Cfg.TimeLayout+`"`, string(b), time.Local)
+	if err != nil {
+		return nil
+	}
+	*t = Time(date)
+	return nil
 }
 
-func (a Articles) Swap(i, j int) {
-	a[i], a[j] = a[j], a[i]
+func (t Time) MarshalJSON() ([]byte, error) {
+
+	return []byte(t.Format(`"`+config.Cfg.TimeLayout+`"`)), nil
 }
 
+func (t Time) Format(layout string) string {
+	return time.Time(t).Format(layout)
+}
+
+func (m MarkdownList) Len() int { return len(m) }
+
+func (m MarkdownList) Less(i, j int) bool { return time.Time(m[i].Date).After(time.Time(m[j].Date)) }
+
+func (m MarkdownList) Swap(i, j int) { m[i], m[j] = m[j], m[i] }
