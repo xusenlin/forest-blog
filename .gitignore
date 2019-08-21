@@ -8,3 +8,5 @@
 *.njsproj
 *.sln
 *.sw*
+
+cache

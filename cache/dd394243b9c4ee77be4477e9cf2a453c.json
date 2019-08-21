@@ -1,1 +1,0 @@
-[{"title":"Docker 容器的相关命令.md","date":"2018.05.04 15:00","description":"\r\n\r\n\r\n\r\n## 1.为什么使用容器？\r\n\r\n在linux和mac上，对于lamp web应用，开发阶段和部署阶段的环境不统一，导致需要重新配置各种环境，编译安装各种插件，非常繁琐，如果同一台服务器需要多个版本的php需要小心的处理冲突，有的时候处理依赖等，可以花费你一天时间甚至更多，这一切简直就是噩梦。但是docker可以让我更简单高效的完成上面的事情。\r\n\r\n\r\n## 2.CENTOS安装","tags":["DOCKER"],"author":"","category":"DOCKER","path":"/DOCKER/Docker 容器的相关命令.md"}]
