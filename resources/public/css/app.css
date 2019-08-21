@@ -41,7 +41,7 @@ a{
 a:hover{
     color: #673ab7;
 }
-@media screen and (max-width: 780px){
+@media screen and (max-width: 860px){
     body{
         padding: 6px;
     }
@@ -72,6 +72,12 @@ a:hover{
     align-items: center;
     justify-content: space-between;
 }
+@media screen and (max-width: 860px){
+    .head-content{
+        padding-top: 10px;
+        flex-direction: column;
+    }
+}
 
 .nav a{
     padding: 0 8px;
@@ -84,6 +90,11 @@ a:hover{
     font-size: 32px;
     margin-bottom: 82px;
 }
+@media screen and (max-width: 860px){
+    .sub-title {
+        display: none;
+    }
+}
 .post-warp{
     position: relative;
     width: 100%;
@@ -93,7 +104,7 @@ a:hover{
     min-height: calc(100vh - 120px);
     padding: 46px 0;
 }
-@media screen and (max-width: 780px){
+@media screen and (max-width: 860px){
     .post-warp{
         min-height: calc(100vh - 132px);
     }
@@ -111,6 +122,21 @@ a:hover{
     line-height: 1;
     align-items: center;
     justify-content: center;
+}
+.footer-divider{
+    margin: 0 10px;
+}
+@media screen and (max-width: 860px){
+    .footer{
+        flex-direction: column;
+    }
+    .footer span{
+        text-align: center;
+        padding: 4px 0;
+    }
+    .footer-divider{
+        display: none;
+    }
 }
 
 .footer a{
@@ -152,7 +178,7 @@ hr:after{
     min-height: 250px;
     padding: 0 16px;
 }
-@media screen and (max-width: 780px){
+@media screen and (max-width: 860px){
     .categories-card{
         width: 100%;
     }
@@ -283,8 +309,40 @@ hr:after{
     line-height: 2;
     margin-bottom: 40px;
 }
+@media screen and (max-width: 860px){
+    .articles .description{
+        padding: 0 10px;
+    }
+}
+
 .sub{
     font-size: 14px;
 }
 
-/*other*/
+/*search*/
+.search-box{
+    height: 40px;
+    display: flex;
+    border-radius: 2px;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #000;
+    width: 320px;
+}
+.search-input{
+    text-align: center;
+    flex: 1;
+    border: none;
+    height: 30px;
+    padding: 0 10px;
+}
+.search-input:focus,.search-input:active{
+    border: none;
+    outline:none;
+}
+.search-icon{
+    cursor: pointer;
+    margin: 0 10px;
+    width: 20px;
+    height: 20px;
+}
