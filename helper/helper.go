@@ -21,9 +21,9 @@ func HtmlTemplate(fileName string) (*template.Template, error) {
 func ErrorHtml(errorInfo string) []byte {
 	errorHtml := `
 			<div style='width: 100%;height: 100vh;display: flex;justify-content: center;align-items: center;'>
-				<h1 style='padding: 10px 20px;background-color: #d9534f;color:#fff;border-radius: 4px;text-align: center;'
+				<p style='padding: 10px 20px;background-color: #d9534f;color:#fff;border-radius: 4px;text-align: center;'
 				onmouseover="this.style.backgroundColor='#f0ad4e';"
-				>` + errorInfo + " :(</h1></div>"
+				>` + errorInfo + " :(</p></div>"
 
 	return []byte(errorHtml)
 }
