@@ -3,8 +3,8 @@
     <p>Search：</p>
     <div class="item-content">
         <div class="search-box">
-            <input class="search-input" type="text">
-            <img class="search-icon" src="/public/img/search.svg" alt="">
+            <input id="search-input" class="search-input" type="text">
+            <img onclick="searchArticle()" class="search-icon" src="/public/img/search.svg" alt="">
         </div>
     </div>
     <p>Theme：</p>
@@ -18,6 +18,13 @@
     <script>
         function selectColor(index) {
             window.location.href = '{{ .Config.DashboardEntrance }}?color_index=' + index
+        }
+        function searchArticle() {
+            var searchKey = document.getElementById('search-input').value;
+            searchKey   =   searchKey.replace(/^\s+|\s+$/g,"")
+            if("" === searchKey){return}
+
+            window.location.href = '/?search=' + searchKey
         }
     </script>
 {{template "footer" .}}

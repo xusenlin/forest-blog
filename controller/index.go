@@ -28,7 +28,9 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	markdownPagination, err := service.GetArticleList(page, "/")
+	searchKey := r.Form.Get("search")
+
+	markdownPagination, err := service.GetArticleList(page, "/", searchKey)
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
 		return

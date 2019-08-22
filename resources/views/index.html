@@ -34,10 +34,19 @@
 
 <ul class="pagination">
     {{range $page := .Data.PageNumber }}
-        <li class="{{ if eq $page $.Data.CurrentPage }}active{{end}}">
-            <a href="?page={{ $page }}">{{ $page }}</a>
+        <li
+                class="{{ if eq $page $.Data.CurrentPage }}active{{end}}"
+                {{ if ne $page $.Data.CurrentPage }}onclick="goPage({{$page}})"{{end}}
+        >
+            <a  href="javascript:;">{{ $page }}</a>
         </li>
     {{end}}
 </ul>
-
+<script>
+    var urlParams = currentUrlToParams();
+    function goPage(page) {
+        urlParams.page = page
+        window.location.href = "/" + obj2StrParams(urlParams)
+    }
+</script>
 {{template "footer" .}}
