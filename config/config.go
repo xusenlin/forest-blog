@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 const ConfigFilePath = "app.json"
@@ -64,6 +65,9 @@ func init() {
 
 	if jsonErr != nil {
 		panic(err)
+	}
+	if "" == Cfg.DashboardEntrance || ! strings.HasPrefix(Cfg.DashboardEntrance, "/") {
+		Cfg.DashboardEntrance = "/admin"
 	}
 
 	fmt.Println("init config...")
