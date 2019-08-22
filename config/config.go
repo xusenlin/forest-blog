@@ -33,6 +33,12 @@ type Config struct {
 	HtmlDescription string `json:"htmlDescription"`
 
 	CategoryListFileNumber int `json:"categoryListFileNumber"`
+
+	ThemeColor string `json:"themeColor"`
+
+	ThemeOption []string `json:"themeOption"`
+
+	DashboardEntrance string `json:"dashboardEntrance"`
 }
 
 var Cfg Config

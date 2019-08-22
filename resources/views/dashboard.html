@@ -1,0 +1,23 @@
+{{template "header" .}}
+    <div class="sub-title">- Dashboard -</div>
+    <p>Search：</p>
+    <div class="item-content">
+        <div class="search-box">
+            <input class="search-input" type="text">
+            <img class="search-icon" src="/public/img/search.svg" alt="">
+        </div>
+    </div>
+    <p>Theme：</p>
+    <div class="item-content">
+        <ul class="colors">
+            {{range $index, $color := .Config.ThemeOption }}
+                <li onclick="selectColor('{{ $index }}')" class="{{ if eq $color $.Config.ThemeColor }}active{{end}}" style="background-color: {{ $color }}"></li>
+            {{end}}
+        </ul>
+    </div>
+    <script>
+        function selectColor(index) {
+            window.location.href = '{{ .Config.DashboardEntrance }}?color_index=' + index
+        }
+    </script>
+{{template "footer" .}}

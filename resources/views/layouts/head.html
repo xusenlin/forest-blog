@@ -9,11 +9,12 @@
     <meta name="Keywords" content="{{ .Config.HtmlKeywords }}" />
     <meta name="description" content="{{ .Config.HtmlDescription }}" />
     <title>{{ .Title }} - {{ .Config.SiteName }}</title>
+    <style>:root{--primary: {{ .Config.ThemeColor }}}</style>
     <link rel="stylesheet" href="/public/css/prism.css">
     <link rel="stylesheet" href="/public/css/app.css">
     <script src="/public/js/marked.min.js"></script>
 </head>
-<body>
+<body class="theme{{ .Config.ThemeColor }}">
     <nav class="head">
         <div class="container head-content">
             <div class="logo">{{ .Config.SiteName }}</div>

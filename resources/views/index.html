@@ -8,8 +8,7 @@
                 <a class="title" href="/article?path={{ .Path }}">{{ .Title }}</a>
             </h2>
             <div class="article-info">
-            {{ if ne .Category "" }}
-{{/*如果文档放在根目录不会出现分类*/}}
+            {{ if ne .Category "" }}{{/*如果文档放在根目录不会出现分类*/}}
                 <span>
                     <img class="icon" src="/public/img/folder.svg" alt="">
                     <span>
@@ -40,4 +39,5 @@
         </li>
     {{end}}
 </ul>
+
 {{template "footer" .}}

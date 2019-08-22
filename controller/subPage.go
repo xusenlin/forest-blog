@@ -15,6 +15,7 @@ func Article(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	path := r.Form.Get("path")
@@ -22,11 +23,13 @@ func Article(w http.ResponseWriter, r *http.Request) {
 	template, err := helper.HtmlTemplate("article")
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	article, err := models.GetMarkdownDetails(path)
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	err = template.Execute(w, map[string]interface{}{
@@ -37,6 +40,7 @@ func Article(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 }
 
@@ -45,11 +49,14 @@ func CategoryArticle(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
+
 	template, err := helper.HtmlTemplate("category")
 
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	categoryName := r.Form.Get("name")
@@ -60,6 +67,7 @@ func CategoryArticle(w http.ResponseWriter, r *http.Request) {
 	content,err := service.GetArticleList(page, categoryName)
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	err = template.Execute(w, map[string]interface{}{
@@ -69,5 +77,37 @@ func CategoryArticle(w http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
+}
+
+func Dashboard(w http.ResponseWriter, r *http.Request)  {
+	err := r.ParseForm()
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+		return
+	}
+
+	index, err := strconv.Atoi(r.Form.Get("color_index"))
+	if err == nil && index < len(config.Cfg.ThemeOption) {
+		service.SetThemeColor(index)
+	}
+
+	template, err := helper.HtmlTemplate("dashboard")
+
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+		return
+	}
+
+	err = template.Execute(w, map[string]interface{}{
+		"Title":  "控制台",
+		"Data":   "",
+		"Config": config.Cfg,
+	})
+	if err != nil {
+		helper.WriteErrorHtml(w, err.Error())
+		return
+	}
+
 }

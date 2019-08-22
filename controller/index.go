@@ -14,6 +14,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	page, err := strconv.Atoi(r.Form.Get("page"))
@@ -24,11 +25,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	template, err := helper.HtmlTemplate("index")
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	markdownPagination, err := service.GetArticleList(page, "/")
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	err = template.Execute(w, map[string]interface{}{
@@ -39,6 +42,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 }
@@ -74,11 +78,13 @@ func Works(w http.ResponseWriter, r *http.Request) {
 	template, err := helper.HtmlTemplate("works")
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	markdown, err := models.ReadMarkdownBody("/Works.md")
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	err = template.Execute(w, map[string]interface{}{
@@ -89,6 +95,7 @@ func Works(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 }
@@ -98,12 +105,14 @@ func About(w http.ResponseWriter, r *http.Request) {
 	template, err := helper.HtmlTemplate("about")
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	markdown, err := models.ReadMarkdownBody("/About.md")
 
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 
 	err = template.Execute(w, map[string]interface{}{
@@ -113,5 +122,6 @@ func About(w http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil {
 		helper.WriteErrorHtml(w, err.Error())
+		return
 	}
 }

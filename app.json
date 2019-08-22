@@ -10,5 +10,8 @@
   "documentPath": "resources/blog_docs",
   "htmlKeywords": "forest blog,Golang,前端",
   "htmlDescription": "Xu Senlin's Personal blog",
-  "categoryListFileNumber": 6
+  "categoryListFileNumber": 6,
+  "themeColor": "#f44336",
+  "dashboardEntrance": "/admin",
+  "themeOption": ["#673ab7","#f44336","#9c27b0","#2196f3","#607d8b"]
 }

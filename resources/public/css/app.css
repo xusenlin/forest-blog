@@ -32,6 +32,8 @@ body{
     flex-direction: column;
     min-height: 100vh;
 }
+
+
 a{
     color: #161209;
     text-decoration: none;
@@ -40,6 +42,8 @@ a{
 
 a:hover{
     color: #673ab7;
+    color: var(--primary,#673ab7);
+
 }
 @media screen and (max-width: 860px){
     body{
@@ -53,6 +57,7 @@ a:hover{
     src: url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.eot);
     src: local("Josefin Sans"),local("JosefinSans-Normal"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.eot?#iefix) format("embedded-opentype"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.woff2) format("woff2"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.woff) format("woff"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.ttf) format("truetype"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.svg#JosefinSans) format("svg")
 }
+
 
 .container {
     width: auto;
@@ -222,6 +227,7 @@ hr:after{
 }
 .pagination li a:hover,.pagination .active a{
     border-bottom: 3px solid #673ab7;
+    border-bottom: 3px solid var(--primary,#673ab7);
 }
 
 /*Index*/
@@ -256,6 +262,8 @@ hr:after{
     color: #fff;
     background: #673ab7;
     border: 2px solid #673ab7;
+    background: var(--primary,#673ab7);
+    border: 2px solid var(--primary,#673ab7);
     text-decoration: none;
     border-radius: 0;
     transition-property: background-color;
@@ -275,6 +283,7 @@ hr:after{
 }
 .articles li .title:hover{
     color: #673ab7;
+    color: var(--primary,#673ab7);
 }
 .article-info{
     margin:20px 0 60px;
@@ -319,14 +328,22 @@ hr:after{
     font-size: 14px;
 }
 
-/*search*/
+/*dashboard*/
+.item-content{
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .search-box{
     height: 40px;
     display: flex;
     border-radius: 2px;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #000;
+    border: 1px solid #673ab7;
+    border: 1px solid var(--primary,#673ab7);
     width: 320px;
 }
 .search-input{
@@ -345,4 +362,30 @@ hr:after{
     margin: 0 10px;
     width: 20px;
     height: 20px;
+}
+.colors{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.colors li{
+    width: 40px;
+    height: 40px;
+    margin: 0 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+.colors li.active:before{
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    border-radius: 2px;
 }
