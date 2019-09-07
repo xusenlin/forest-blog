@@ -8,17 +8,24 @@
 源码： [github.com/xusenlin/ForestBlog](https://github.com/xusenlin/ForestBlog)
 
 ---  
+
+## 安装
+你可以克隆并编译源代码来运行你的博客，如果不想自己编译，可以使用下面的二进制包，下载运行即可：
+1. win：链接: https://pan.baidu.com/s/1btblaIZGbBED165FJESp0g 提取码: khtv 
+2. mac: 
+3. linux: 
+
 ## 使用
 
-- 请将你的博客文档克隆到ForestBlog的resources下，
-ForestBlog会6个小时自动根据app.json的documentPath key切换到你的博客目录下执行git pull 命令来更新你的文章,
+- 请将你的博客文档克隆到ForestBlog的resources目录下，
+ForestBlog会定时自动根据app.json的documentPath key切换到你的博客目录下执行git pull 命令来更新你的文章,
 所以正确配置documentPath指向你的博客文档很关键。
 
 - 还有，你的博客文档目录里面最少需要assets、content目录和About.md、Works.md文件(未来完成todo这个将不再是强制性的)。
 content目录下的一级目录代表一个分类，如果有多个子级目录也不会产生分类,子级的文档也会属于第一级的分类。
 如下：
 ```
-    |-- assets       //博客静态文件，存放一下图片资源，方便显示到文档里
+    |-- assets       //博客静态文件，存放一些图片资源，方便显示到文档里
     |-- content
     |   |-- GOLANG   //分类目录
     |       |-- GOLANG基础   //  子分类目录，但是在页面上不会产生分类目录
@@ -57,11 +64,7 @@ content目录下的一级目录代表一个分类，如果有多个子级目录�
 如果不想让别人知道你的仪表盘地址可以自己配置dashboardEntrance字段。
 更多配置请自行查看app.json
 
-##  下载
-如果不想自己编译，可以使用下面的二进制包，下载运行即可：
-1. win：链接: https://pan.baidu.com/s/1btblaIZGbBED165FJESp0g 提取码: khtv 
-2. mac: 
-3. linux: 
+
 
 ## TODO
 - [x] 1.移动端更好的适配
@@ -69,9 +72,15 @@ content目录下的一级目录代表一个分类，如果有多个子级目录�
 - [x] 3.支持切换主题
 - [x] 4.支持搜索
 - [ ] 5.tags的展示
+- [ ] 6.单元测试
 
-## 优点 ##
+## 特性
 
 1. 响应迅速  ---没有什么依赖，得益于GOLANG的运行速度，部署在阿里云的博客平均响应在50毫秒内。
 2. 迁移方便  ---GOLANG交叉编译可以方便的发布二进制文件到不同的操作系统，执行二进制文件并克隆博客文件即可运行你的博客。
 3. 小巧精美  ---非常简单的代码方便学习和改造，即使有一天你厌倦ForestBlog，你的文章也能很好的迁移和阅读。
+
+
+## License
+
+MIT © Richard McRichface
