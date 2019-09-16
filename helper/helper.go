@@ -3,7 +3,9 @@ package helper
 import (
 	"fmt"
 	"github.com/xusenlin/go_blog/config"
+	"github.com/xusenlin/go_blog/models"
 	"html/template"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -28,9 +30,9 @@ func ErrorHtml(errorInfo string) []byte {
 	return []byte(errorHtml)
 }
 
-func WriteErrorHtml(w http.ResponseWriter,err string)  {
-	_,newErr := w.Write(ErrorHtml(err))
-	if newErr != nil{
+func WriteErrorHtml(w http.ResponseWriter, err string) {
+	_, newErr := w.Write(ErrorHtml(err))
+	if newErr != nil {
 		panic(newErr)
 	}
 }
@@ -55,24 +57,39 @@ func StartTicker(f func()) {
 			f()
 		}
 	}()
+	f()
 }
 
 func UpdateArticle() {
 
-	cmd := exec.Command("git", "pull")
-	cmd.Dir = config.CurrentDir + "/" + config.Cfg.DocumentPath
+	deleteCacheErr := os.RemoveAll("cache")
+	if deleteCacheErr != nil {
+		fmt.Println(deleteCacheErr)
+	}
 
-	err := cmd.Start()
+	blogPath := config.CurrentDir + "/" + config.Cfg.DocumentPath
+
+	_, err := exec.LookPath("git")
+
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("请先安装git并克隆博客文档到" + blogPath)
+		log.Fatalf("git cmd failed with %s\n", err)
+	}
+
+	cmd := exec.Command("git", "pull")
+	cmd.Dir = blogPath
+
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatalf("cmd.Run() failed with %s\n", err)
+	}
+
+	log.Println("UpdateArticle:" + string(out))
+	//生成缓存
+	_, err = models.GetMarkdownListByCache("/")
+
+	if err != nil {
+		log.Fatalf("生成缓存失败： %s\n", err)
 	}
 	return
-}
-
-func ClearCache()  {
-	err := os.RemoveAll("cache")
-	if err != nil{
-		fmt.Println(err)
-		return
-	}
 }
