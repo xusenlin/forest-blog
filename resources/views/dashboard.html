@@ -15,9 +15,24 @@
             {{end}}
         </ul>
     </div>
+    <p>Action：</p>
+    <div class="item-content">
+        <div class="action">
+            <a href="{{ .Config.DashboardEntrance }}?action=updateArticle">更新文章</a>
+        </div>
+    </div>
+    {{ if .Data.msg }}
+        <div id="action-msg" class="action-msg">
+            {{range $msg := .Data.msg }}
+                <span>{{ $msg }}</span>
+            {{ end }}
+            <span class="close" onclick="document.getElementById('action-msg').remove()">x</span>
+        </div>
+    {{ end }}
+    <span class="action-tip">提示：更新文章会执行git pull命令，和你的仓库网络有关，等待时间可能会稍长。</span>
     <script>
         function selectColor(index) {
-            window.location.href = '{{ .Config.DashboardEntrance }}?color_index=' + index
+            window.location.href = '{{ .Config.DashboardEntrance }}?theme=' + index
         }
         function searchArticle() {
             var searchKey = document.getElementById('search-input').value;
