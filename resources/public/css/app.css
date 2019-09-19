@@ -45,6 +45,27 @@ a:hover{
     color: var(--primary,#673ab7);
 
 }
+p{
+    line-height: 2em;
+}
+
+blockquote{
+    text-indent: 2em;
+    position: relative;
+    margin: 20px 0;
+}
+blockquote::before{
+    position: absolute;
+    left: -32px;
+    top: -10px;
+    content: '“';
+    font-family: fantasy;
+    font-size: 40px;
+    color: #673ab7;
+    color: var(--primary,#673ab7);
+}
+
+
 @media screen and (max-width: 860px){
     body{
         padding: 6px;

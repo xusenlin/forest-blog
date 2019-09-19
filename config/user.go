@@ -1,16 +1,7 @@
 package config
 
-import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"strings"
-)
 
-const ConfigFilePath = "app.json"
-
-type Config struct {
+type userConfig struct {
 	SiteName string `json:"siteName"`
 
 	Author string `json:"author"`
@@ -42,33 +33,4 @@ type Config struct {
 	DashboardEntrance string `json:"dashboardEntrance"`
 }
 
-var Cfg Config
 
-var CurrentDir string
-
-func init() {
-	var pwdErr error
-
-	CurrentDir, pwdErr = os.Getwd()
-
-	if pwdErr != nil {
-		panic(pwdErr)
-	}
-
-	configFile, err := ioutil.ReadFile(ConfigFilePath)
-
-	if err != nil {
-		panic(err)
-	}
-
-	jsonErr := json.Unmarshal(configFile, &Cfg)
-
-	if jsonErr != nil {
-		panic(err)
-	}
-	if "" == Cfg.DashboardEntrance || ! strings.HasPrefix(Cfg.DashboardEntrance, "/") {
-		Cfg.DashboardEntrance = "/admin"
-	}
-
-	fmt.Println("init config...")
-}
