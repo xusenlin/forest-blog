@@ -36,6 +36,15 @@ func WriteErrorHtml(w http.ResponseWriter, err string) {
 	}
 }
 
+func SedResponse(w http.ResponseWriter, msg string) {
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	_, err := w.Write([]byte(`{"msg": "` + msg + `"}`))
+	if err != nil {
+		panic(err)
+	}
+}
+
 func BuildArrByInt(num int) []int {
 	var arr []int
 
@@ -44,8 +53,6 @@ func BuildArrByInt(num int) []int {
 	}
 	return arr
 }
-
-
 
 func UpdateArticle() {
 

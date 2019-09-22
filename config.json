@@ -1,5 +1,5 @@
 {
-  "port": "80",
+  "port": 80,
   "pageSize": 4,
   "descriptionLen": 200,
   "author": "XuSenLin",

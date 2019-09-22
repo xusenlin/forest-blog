@@ -10,7 +10,7 @@ type userConfig struct {
 
 	TimeLayout string `json:"timeLayout"`
 
-	Port string `json:"port"`
+	Port int `json:"port"`
 
 	WebHookSecret string `json:"webHookSecret"`
 

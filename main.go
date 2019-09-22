@@ -6,6 +6,7 @@ import (
 	"github.com/xusenlin/go_blog/helper"
 	"github.com/xusenlin/go_blog/routes"
 	"net/http"
+	"strconv"
 )
 
 func main() {
@@ -14,10 +15,11 @@ func main() {
 
 	fmt.Println(config.Cfg.AppName)
 	fmt.Printf("Version：v%v \n" , config.Cfg.Version)
+	fmt.Printf("ListenAndServe On Port %v \n" , config.Cfg.Port)
 
 	helper.UpdateArticle()
 
-	if err := http.ListenAndServe( ":" + config.Cfg.Port , nil); err != nil{
+	if err := http.ListenAndServe( ":" + strconv.Itoa(config.Cfg.Port) , nil); err != nil{
 		fmt.Println("ServeErr:",err)
 	}
 
