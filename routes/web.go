@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func InitRoute()  {
+func initWebRoute()  {
 
 	http.HandleFunc("/", controller.Index)
 	http.HandleFunc("/categories", controller.Categories)

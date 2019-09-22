@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"time"
 )
 
 func HtmlTemplate(fileName string) (*template.Template, error) {
@@ -46,19 +45,7 @@ func BuildArrByInt(num int) []int {
 	return arr
 }
 
-func StartTicker(f func()) {
 
-	updateTime := time.Duration(config.Cfg.UpdateArticleInterval)
-
-	ticker := time.NewTicker(time.Hour * updateTime)
-
-	go func() {
-		for _ = range ticker.C {
-			f()
-		}
-	}()
-	f()
-}
 
 func UpdateArticle() {
 

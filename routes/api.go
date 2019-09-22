@@ -1,1 +1,8 @@
 package routes
+
+
+
+func initApiRoute()  {
+
+
+}

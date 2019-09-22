@@ -12,11 +12,10 @@ func main() {
 
 	routes.InitRoute()
 
-	fmt.Println("Listening...")
+	fmt.Println(config.Cfg.AppName)
+	fmt.Printf("Version：v%v \n" , config.Cfg.Version)
 
-	helper.StartTicker(func() {
-		helper.UpdateArticle()
-	})
+	helper.UpdateArticle()
 
 	if err := http.ListenAndServe( ":" + config.Cfg.Port , nil); err != nil{
 		fmt.Println("ServeErr:",err)

@@ -12,7 +12,7 @@ type userConfig struct {
 
 	Port string `json:"port"`
 
-	UpdateArticleInterval int `json:"updateArticleInterval"`
+	WebHookSecret string `json:"webHookSecret"`
 
 	PageSize int `json:"pageSize"`
 

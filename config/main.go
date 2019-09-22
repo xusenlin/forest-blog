@@ -2,7 +2,6 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -26,7 +25,7 @@ func init() {
 		panic(pwdErr)
 	}
 
-	configFile, err := ioutil.ReadFile("app.json")
+	configFile, err := ioutil.ReadFile("config.json")
 
 	if err != nil {
 		panic(err)
@@ -41,5 +40,8 @@ func init() {
 		Cfg.DashboardEntrance = "/admin"
 	}
 
-	fmt.Println("init config...")
+	Cfg.AppName = "ForestBlog"
+	Cfg.Version = 2.01
+	Cfg.AppRepository = "https://github.com/xusenlin/ForestBlog"
+
 }
