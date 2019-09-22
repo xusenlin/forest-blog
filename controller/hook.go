@@ -21,7 +21,7 @@ func GithubHook(w http.ResponseWriter, r *http.Request) {
 
 	if "" == config.Cfg.WebHookSecret || "push" != r.Header.Get("x-github-event") {
 		helper.SedResponse(w, "No Configuration WebHookSecret Or Not Pushing Events")
-		log.Println("No Configuration WebHookSecret Or Not Pushing Events" )
+		log.Println("No Configuration WebHookSecret Or Not Pushing Events")
 		return
 	}
 
@@ -29,29 +29,29 @@ func GithubHook(w http.ResponseWriter, r *http.Request) {
 
 	bodyContent, err := ioutil.ReadAll(r.Body)
 
-	if  err != nil {
+	if err != nil {
 		helper.SedResponse(w, err.Error())
-		log.Println("WebHook err:" + err.Error() )
+		log.Println("WebHook err:" + err.Error())
 		return
 	}
 
 	if err = r.Body.Close(); err != nil {
 		helper.SedResponse(w, err.Error())
-		log.Println("WebHook err:" + err.Error() )
+		log.Println("WebHook err:" + err.Error())
 		return
 	}
 
 	mac := hmac.New(sha1.New, []byte(config.Cfg.WebHookSecret))
 	mac.Write(bodyContent)
 	expectedHash := "sha1=" + hex.EncodeToString(mac.Sum(nil))
-
-	if sign != expectedHash{
+	
+	if sign != expectedHash {
 		helper.SedResponse(w, "WebHook err:Signature does not match")
-		log.Println("WebHook err:Signature does not match" )
+		log.Println("WebHook err:Signature does not match")
 		return
 	}
-	helper.UpdateArticle()
+
 	helper.SedResponse(w, "ok")
+
+	helper.UpdateArticle()
 }
-
-
