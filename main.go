@@ -16,6 +16,7 @@ func main() {
 	fmt.Println(config.Cfg.AppName)
 	fmt.Printf("Version：v%v \n" , config.Cfg.Version)
 	fmt.Printf("ListenAndServe On Port %v \n" , config.Cfg.Port)
+	fmt.Printf("UpdateArticle's GitHookUrl: %v   Secret:  %v \n" , config.Cfg.GitHookUrl,config.Cfg.WebHookSecret)
 
 	helper.UpdateArticle()
 

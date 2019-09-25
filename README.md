@@ -18,15 +18,16 @@
 
 ## 安装
 你可以克隆并编译源代码来运行你的博客，如果不想自己编译，可以使用下面的二进制包，下载运行即可：
-1. win：链接: https://pan.baidu.com/s/1btblaIZGbBED165FJESp0g 提取码: khtv 
+1. win：
 2. mac: 
 3. linux: 
 
 ## 使用
 
-- 请将你的博客文档克隆到ForestBlog的resources目录下，并配置好documentPath字段，
-ForestBlog会根据你配置的时间定时切换到你的博客目录下执行git pull 命令来更新你的文章,
-所以正确配置documentPath指向你的博客文档很关键。
+- 请将你的博客文档克隆到ForestBlog的resources目录下，并配置好documentPath字段指向你的博客目录，
+当你访问仪表盘手动更新文章时，ForestBlog会切换到你的博客目录下执行git pull 命令来更新你的文章,
+所以正确配置documentPath指向你的博客文档很关键，如果你不想手动更新文章，可以根据运行的提示来配置你的webHooks。
+当git仓库发送push事件的时候，ForestBlog会立即更新你的文章。
 
 - 还有，你的博客文档目录里面最少需要assets、content目录和About.md、Works.md文件(未来完成todo这个将不再是强制性的)。
 content目录下的一级目录代表一个分类，如果有多个子级目录也不会产生分类,子级的文档也会属于第一级的分类。

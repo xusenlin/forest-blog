@@ -44,7 +44,7 @@ func GithubHook(w http.ResponseWriter, r *http.Request) {
 	mac := hmac.New(sha1.New, []byte(config.Cfg.WebHookSecret))
 	mac.Write(bodyContent)
 	expectedHash := "sha1=" + hex.EncodeToString(mac.Sum(nil))
-	
+
 	if sign != expectedHash {
 		helper.SedResponse(w, "WebHook err:Signature does not match")
 		log.Println("WebHook err:Signature does not match")
