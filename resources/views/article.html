@@ -18,8 +18,22 @@
         </span>
     </div>
     <div id="article" class="article markdow"></div>
+
+
+
+
+
     <script>
         document.getElementById('article').innerHTML = marked({{  .Data.Body }});
     </script>
     <script src="/public/js/prism.js"></script>
+    {{if ne .Config.UtterancesRepo ""}}
+        <script src="https://utteranc.es/client.js"
+                repo="{{ .Config.UtterancesRepo }}"
+                issue-term="[{{ .Data.Title }}]"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+        </script>
+    {{end}}
 {{template "footer" .}}

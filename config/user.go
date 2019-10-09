@@ -1,6 +1,5 @@
 package config
 
-
 type userConfig struct {
 	SiteName string `json:"siteName"`
 
@@ -13,6 +12,8 @@ type userConfig struct {
 	Port int `json:"port"`
 
 	WebHookSecret string `json:"webHookSecret"`
+
+	UtterancesRepo string `json:"utterancesRepo"`
 
 	PageSize int `json:"pageSize"`
 
@@ -32,5 +33,3 @@ type userConfig struct {
 
 	DashboardEntrance string `json:"dashboardEntrance"`
 }
-
-
