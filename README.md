@@ -100,6 +100,8 @@ content目录下的一级目录代表一个分类，如果有多个子级目录�
 3. 小巧精美  ---非常简单的代码方便学习和改造，即使有一天你厌倦ForestBlog，你的文章也能很好的迁移和阅读。
 4. 分类调整  ---随时调整你的文章分类，你可以把一个文件夹里所有的东西移动到其他分类里的某个地方，不管有多少层级，分类发生了什么翻天覆地的变化，下一次更新就能展示。
 
+##  感谢
+<a href="https://www.jetbrains.com/?from=ForestBlog"><img src="resources/images/jetbrains.png" width="100" alt="JetBrains"/></a>
 
 ## License
 
