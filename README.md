@@ -3,9 +3,9 @@
 > ForestBlog 是基于 go 语言开发的，不依赖第三方 go 库，适合用来学习和展示 markdown 文档的精美博客。
 
 
-示例： [xusenlin.com](http://xusenlin.com) （个人博客，正在使用）
+:chestnut:  [xusenlin.com](http://xusenlin.com) （个人博客，正在使用）
 
-源码： [github.com/xusenlin/ForestBlog](https://github.com/xusenlin/ForestBlog)
+:point_right:  [github.com/xusenlin/ForestBlog](https://github.com/xusenlin/ForestBlog)
 
 ---  
 
@@ -89,7 +89,8 @@ content目录下的一级目录代表一个分类，如果有多个子级目录�
 - [x] 6.仪表盘添加手动更新文章功能
 - [x] 7.添加webHook支持(去掉自动更新)
 - [x] 8.添加评论支持(在配置里开启，所有评论都会储存在仓库的Issues)
-- [ ] 9.单元测试
+- [ ] 9.支持emoji表情  :smiley:
+- [ ] 10.单元测试
 
 > 后续尽善尽美之后，我可能会提供其他漂亮的主题皮肤，也欢迎大家参与进来。
 
