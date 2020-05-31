@@ -1,7 +1,0 @@
-{{template "header" .}}
-    <div class="sub-title">- About -</div>
-    <div id="about"></div>
-    <script>
-        document.getElementById('about').innerHTML = marked({{ .Data }});
-    </script>
-{{template "footer" .}}

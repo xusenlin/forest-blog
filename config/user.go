@@ -13,19 +13,19 @@ type userConfig struct {
 
 	WebHookSecret string `json:"webHookSecret"`
 
+	CategoryDisplayQuantity int `json:"categoryDisplayQuantity"`
+
 	UtterancesRepo string `json:"utterancesRepo"`
 
 	PageSize int `json:"pageSize"`
 
 	DescriptionLen int `json:"descriptionLen"`
 
-	DocumentPath string `json:"documentPath"`
+	DocumentGitUrl string `json:"documentGitUrl"`
 
 	HtmlKeywords string `json:"htmlKeywords"`
 
 	HtmlDescription string `json:"htmlDescription"`
-
-	CategoryListFileNumber int `json:"categoryListFileNumber"`
 
 	ThemeColor string `json:"themeColor"`
 

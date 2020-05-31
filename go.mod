@@ -1,3 +1,3 @@
-module github.com/xusenlin/go_blog
+module ForestBlog
 
-go 1.12
+go 1.13

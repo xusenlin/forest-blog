@@ -1,19 +1,19 @@
 {{template "header" .}}
-<div class="sub-title">- Blog -</div>
+<div class="sub-title">- {{ .Title }} -</div>
 
 <ul class="articles">
-    {{range .Data.Markdowns }}
+    {{range .Data.List }}
         <li>
             <h2>
-                <a class="title" href="/article?path={{ .Path }}">{{ .Title }}</a>
+                <a class="title" href="/article?key={{ .ShortUrl }}">{{ .Title }}</a>
             </h2>
             <div class="article-info">
-            {{ if ne .Category "" }}{{/*如果文档放在根目录不会出现分类*/}}
+            {{ if ne .Category "" }}
                 <span>
                     <img class="icon" src="/public/img/folder.svg" alt="">
                     <span>
                         分类于
-                        <a class="category" href="/category?name=/{{ .Category }}">{{ .Category }}</a>
+                        <a class="category" href="/?category={{ .Category }}">{{ .Category }}</a>
                     </span>
                 </span>
                 <span class="divider-line"></span>
@@ -24,7 +24,7 @@
                 </span>
             </div>
             <div class="description"> {{ .Description }}...</div>
-            <a class="read-all" href="/article?path={{ .Path }}" rel="contents">
+            <a class="read-all" href="/article?key={{ .ShortUrl }}" rel="contents">
                 阅读全文 »
             </a>
             <div class="article-eof"></div>
@@ -33,14 +33,17 @@
 </ul>
 
 <ul class="pagination">
-    {{range $page := .Data.PageNumber }}
+    {{ range $page := SpreadDigit .Data.TotalPage  }}
         <li
-                class="{{ if eq $page $.Data.CurrentPage }}active{{end}}"
-                {{ if ne $page $.Data.CurrentPage }}onclick="goPage({{$page}})"{{end}}
+                class="{{ if eq $page $.Data.Page }}active{{end}}"
+                {{ if ne $page $.Data.Page }}onclick="goPage({{$page}})"{{end}}
         >
             <a  href="javascript:;">{{ $page }}</a>
         </li>
     {{end}}
+    <li style="color: #bfbfbf;">
+        [{{ .Data.Total }}]
+    </li>
 </ul>
 <script>
     var urlParams = currentUrlToParams();

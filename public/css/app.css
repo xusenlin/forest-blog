@@ -255,6 +255,7 @@ hr:after{
 .articles{
     margin: 0;
     padding: 0;
+    min-height: 400px;
 }
 .articles li{
     padding-bottom: 8px;
@@ -463,4 +464,10 @@ hr:after{
     top: auto;
     font-size: 16px;
     right: 24px;
+}
+.music{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }

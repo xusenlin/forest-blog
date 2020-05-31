@@ -1,11 +1,12 @@
 package controller
 
 import (
+	"ForestBlog/config"
+	"ForestBlog/models"
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/hex"
-	"github.com/xusenlin/go_blog/config"
-	"github.com/xusenlin/go_blog/helper"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -15,12 +16,12 @@ func GithubHook(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseForm()
 	if err != nil {
-		helper.SedResponse(w, err.Error())
+		SedResponse(w, err.Error())
 		return
 	}
 
 	if "" == config.Cfg.WebHookSecret || "push" != r.Header.Get("x-github-event") {
-		helper.SedResponse(w, "No Configuration WebHookSecret Or Not Pushing Events")
+		SedResponse(w, "No Configuration WebHookSecret Or Not Pushing Events")
 		log.Println("No Configuration WebHookSecret Or Not Pushing Events")
 		return
 	}
@@ -30,13 +31,13 @@ func GithubHook(w http.ResponseWriter, r *http.Request) {
 	bodyContent, err := ioutil.ReadAll(r.Body)
 
 	if err != nil {
-		helper.SedResponse(w, err.Error())
+		SedResponse(w, err.Error())
 		log.Println("WebHook err:" + err.Error())
 		return
 	}
 
 	if err = r.Body.Close(); err != nil {
-		helper.SedResponse(w, err.Error())
+		SedResponse(w, err.Error())
 		log.Println("WebHook err:" + err.Error())
 		return
 	}
@@ -46,12 +47,21 @@ func GithubHook(w http.ResponseWriter, r *http.Request) {
 	expectedHash := "sha1=" + hex.EncodeToString(mac.Sum(nil))
 
 	if sign != expectedHash {
-		helper.SedResponse(w, "WebHook err:Signature does not match")
+		SedResponse(w, "WebHook err:Signature does not match")
 		log.Println("WebHook err:Signature does not match")
 		return
 	}
 
-	helper.SedResponse(w, "ok")
+	SedResponse(w, "ok")
 
-	helper.UpdateArticle()
+	models.CompiledContent()
+}
+
+func SedResponse(w http.ResponseWriter, msg string) {
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	_, err := w.Write([]byte(`{"msg": "` + msg + `"}`))
+	if err != nil {
+		fmt.Println(err)
+	}
 }

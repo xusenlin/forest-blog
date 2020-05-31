@@ -1,0 +1,42 @@
+{{template "header" .}}
+<div class="sub-title">- {{ .Title }} -</div>
+
+<h1 style="text-align: center">{{ .Data.Title }}</h1>
+
+<div class="article-info">
+        <span>
+            <img class="icon" src="/public/img/folder.svg" alt="">
+            <span>
+                分类于
+                <a class="category" href="/?category={{ .Data.Category }}">{{ .Data.Category }}</a>
+            </span>
+        </span>
+    <span class="divider-line"></span>
+    <span>
+            <img class="icon" src="/public/img/date.svg" alt="">
+            <span>发表于{{ .Data.Date.Format "2006-01-02 15:04" }}</span>
+        </span>
+</div>
+{{ if ne .Data.MusicId "" }}
+    <div class="music">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0"  height=86 src="//music.163.com/outchain/player?type=2&id={{ .Data.MusicId }}&auto=0&height=66"></iframe>
+    </div>
+{{ end }}
+<div id="article" class="article markdow">
+
+</div>
+
+<script>
+    document.getElementById('article').innerHTML = marked({{  .Data.Body }});
+</script>
+<script src="/public/js/prism.js"></script>
+{{if ne .Config.UtterancesRepo ""}}
+    <script src="https://utteranc.es/client.js"
+            repo="{{ .Config.UtterancesRepo }}"
+            issue-term="[{{ .Data.Title }}]"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+{{end}}
+{{template "footer" .}}

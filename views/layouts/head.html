@@ -44,10 +44,11 @@
         <div class="container head-content">
             <div class="logo">{{ .Config.SiteName }}</div>
             <div class="nav">
-                <a href="/">Blog</a>
+                <a href="/blog">Blog</a>
                 <a href="/categories">Categories</a>
-                <a href="/works">Works</a>
-                <a href="/about">About</a>
+                {{range $nav :=  .Navs }}
+                    <a href="/extra-nav?name={{ $nav.Title }}">{{ $nav.Title }}</a>
+                {{end}}
             </div>
         </div>
     </nav>
