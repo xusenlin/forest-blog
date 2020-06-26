@@ -68,16 +68,23 @@ func Initial() {
 		fmt.Println(out)
 	} else {
 		out, err := utils.RunCmdByDir(Cfg.DocumentDir, "git", "pull")
+		fmt.Println(out)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(out)
+
 	}
 	if err := checkDocDirAndBindConfig(&Cfg); err != nil {
 		fmt.Println("文档缺少必要的目录")
 		panic(err)
 	}
 
+	imgDir := Cfg.CurrentDir + "/images"
+	if !utils.IsDir(imgDir) {
+		if os.Mkdir(imgDir, os.ModePerm) != nil {
+			panic("生成images目录失败！")
+		}
+	}
 }
 
 func checkDocDirAndBindConfig(cfg *Config) error {

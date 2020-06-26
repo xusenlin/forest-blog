@@ -38,7 +38,7 @@ func CompiledContent() {
 	//文章
 	wg.Add(1)
 	go func() {
-		ArticleList, ArticleShortUrlMap, err = initArticles(config.Cfg.DocumentContentDir)
+		ArticleList, ArticleShortUrlMap, err = initArticlesAndImages(config.Cfg.DocumentContentDir)
 		if err != nil {
 			panic(err)
 		}

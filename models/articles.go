@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"sort"
@@ -34,7 +35,7 @@ type ArticleDetail struct {
 	Body string
 }
 
-func initArticles(dir string) (Articles, map[string]string, error) {
+func initArticlesAndImages(dir string) (Articles, map[string]string, error) {
 	var articles Articles
 	shortUrlMap := make(map[string]string)
 
@@ -100,19 +101,31 @@ func RecursiveReadArticles(dir string) (Articles, error) {
 	for _, fileInfo := range fileOrDir {
 		name := fileInfo.Name()
 		path := dir + "/" + name
+		upperName := strings.ToUpper(name)
 		if fileInfo.IsDir() {
 			subArticles, err := RecursiveReadArticles(path)
 			if err != nil {
 				return articles, err
 			}
 			articles = append(articles, subArticles...)
-		} else if strings.HasSuffix(strings.ToUpper(name), "MD") {
+		} else if strings.HasSuffix(upperName, ".MD") {
 			article, err := ReadArticle(path)
 			if err != nil {
 				return articles, err
 			}
 			articles = append(articles, article)
+		} else if
+		strings.HasSuffix(upperName, ".PNG") ||
+			strings.HasSuffix(upperName, ".GIF") ||
+			strings.HasSuffix(upperName, ".JPG") {
+
+			dst := config.Cfg.CurrentDir + "/images/" + name
+			fmt.Println(utils.IsFile(dst))
+			if !utils.IsFile(dst) {
+				_, _ = utils.CopyFile(path, dst)
+			}
 		}
+
 	}
 	return articles, nil
 }
@@ -153,7 +166,7 @@ func readMarkdown(path string) (Article, ArticleDetail, error) {
 
 	article.Path = path
 	article.Category = GetCategoryName(path)
-	article.Title = strings.ToUpper(mdFile.Name())
+	article.Title = strings.TrimSuffix(strings.ToUpper(mdFile.Name()), ".MD")
 	article.Date = Time(mdFile.ModTime())
 
 	if ! bytes.HasPrefix(markdown, []byte("```json")) {
