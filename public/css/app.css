@@ -339,6 +339,7 @@ hr:after{
     font-size: 16px;
     text-align: left;
     line-height: 2;
+    text-indent: 2em;
     margin-bottom: 40px;
 }
 @media screen and (max-width: 860px){
