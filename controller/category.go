@@ -12,5 +12,5 @@ func Category(w http.ResponseWriter, r *http.Request)  {
 
 	result := models.GroupByCategory(&models.ArticleList,config.Cfg.CategoryDisplayQuantity)
 
-	categoriesTemplate.WriteData(w, models.BuildViewData("Blog",result))
+	categoriesTemplate.WriteData(w, models.BuildViewData("Categories",result))
 }
