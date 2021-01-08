@@ -113,6 +113,10 @@ content目录下的一级目录代表一个分类，如果一级目录下有子�
 
 
 ##  感谢
+
+A special thank you to JetBrains for donating licenses to us!
+Please click the logo to let them know your appreciation!
+
 <a href="https://www.jetbrains.com/?from=ForestBlog"><img src="resources/images/jetbrains.png" width="100" alt="JetBrains"/></a>
 
 ## License
