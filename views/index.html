@@ -3,32 +3,46 @@
 
 <ul class="articles">
     {{range .Data.List }}
-        <li>
-            <h2>
-                <a class="title" href="/article?key={{ .ShortUrl }}">{{ .Title }}</a>
-            </h2>
-            <div class="article-info">
+    <li>
+        <h2>
+            <a class="title" href="/article?key={{ .ShortUrl }}">{{ .Title }}</a>
+        </h2>
+        <div class="article-info">
             {{ if ne .Category "" }}
-                <span>
+            <span>
                     <img class="icon" src="/public/img/folder.svg" alt="">
                     <span>
                         分类于
                         <a class="category" href="/?category={{ .Category }}">{{ .Category }}</a>
                     </span>
                 </span>
-                <span class="divider-line"></span>
+            <span class="divider-line"></span>
             {{ end }}
-                <span>
+
+            {{ if .Tags }}
+            <span>
+                    <img class="icon" src="/public/img/tags.svg" alt="">
+                    <span>
+                        标签
+                      {{ range .Tags }}
+                         <a class="category" href="/?tag={{ . }}">{{ . }}</a>
+                     {{ end }}
+                    </span>
+                </span>
+            <span class="divider-line"></span>
+            {{ end }}
+
+            <span>
                     <img class="icon" src="/public/img/date.svg" alt="">
                     <span>发表于{{ .Date.Format "2006-01-02 15:04" }}</span>
                 </span>
-            </div>
-            <div class="description"> {{ .Description }}...</div>
-            <a class="read-all" href="/article?key={{ .ShortUrl }}" rel="contents">
-                阅读全文 »
-            </a>
-            <div class="article-eof"></div>
-        </li>
+        </div>
+        <div class="description"> {{ .Description }}...</div>
+        <a class="read-all" href="/article?key={{ .ShortUrl }}" rel="contents">
+            阅读全文 »
+        </a>
+        <div class="article-eof"></div>
+    </li>
     {{end}}
 </ul>
 
@@ -47,6 +61,7 @@
 </ul>
 <script>
     var urlParams = currentUrlToParams();
+
     function goPage(page) {
         urlParams.page = page
         window.location.href = "/" + obj2StrParams(urlParams)

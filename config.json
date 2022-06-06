@@ -6,6 +6,7 @@
   "icp": "黔ICP备15004120号",
   "webHookSecret": "XuSenLin",
   "categoryDisplayQuantity": 6,
+  "tagDisplayQuantity": 6,
   "utterancesRepo": "xusenlin/blog_docs",
   "timeLayout": "2006.01.02 15:04",
   "siteName": "Xu Senlin's Personal Blog",

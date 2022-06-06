@@ -46,6 +46,7 @@
             <div class="nav">
                 <a href="/blog">Blog</a>
                 <a href="/categories">Categories</a>
+                <a href="/tags">Tags</a>
                 {{range $nav :=  .Navs }}
                     <a href="/extra-nav?name={{ $nav.Title }}">{{ $nav.Title }}</a>
                 {{end}}

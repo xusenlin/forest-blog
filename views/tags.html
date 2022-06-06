@@ -1,0 +1,17 @@
+{{template "header" .}}
+    <div class="sub-title">- {{ .Title }} -</div>
+    <div class="categories">
+        {{range .Data}}
+            <div class="categories-card">
+                <a href="/?tag={{ .Name }}">
+                    <h3><img class="icon" src="/public/img/folder.svg" alt=""> {{ .Name }} <sub>({{ .Quantity }})</sub></h3>
+                </a>
+                <article class="categories-article">
+                    {{range .Articles}}
+                        <a href="/article?key={{ .ShortUrl }}">{{ .Title }}</a>
+                    {{end}}
+                </article>
+            </div>
+        {{end}}
+    </div>
+{{template "footer" .}}

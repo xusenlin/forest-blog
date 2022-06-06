@@ -14,6 +14,7 @@ type TemplatePointer struct {
 type HtmlTemplate struct {
 	Article    TemplatePointer
 	Categories TemplatePointer
+	Tags       TemplatePointer
 	Dashboard  TemplatePointer
 	ExtraNav   TemplatePointer
 	Index      TemplatePointer
@@ -40,7 +41,7 @@ func BuildViewData(title string, data interface{}) map[string]interface{} {
 		"Title":  title,
 		"Data":   data,
 		"Config": config.Cfg,
-		"Navs":    Navigation,
+		"Navs":   Navigation,
 	}
 }
 
@@ -48,7 +49,7 @@ func initHtmlTemplate(viewDir string) (HtmlTemplate, error) {
 	var htmlTemplate HtmlTemplate
 
 	tp, err := readHtmlTemplate(
-		[]string{"index", "extraNav", "dashboard", "categories", "article"},
+		[]string{"index", "extraNav", "dashboard", "categories", "article", "tags"},
 		viewDir)
 	if err != nil {
 		return htmlTemplate, err
@@ -59,7 +60,7 @@ func initHtmlTemplate(viewDir string) (HtmlTemplate, error) {
 	htmlTemplate.Dashboard = tp[2]
 	htmlTemplate.Categories = tp[3]
 	htmlTemplate.Article = tp[4]
-
+	htmlTemplate.Tags = tp[5]
 
 	return htmlTemplate, nil
 }
@@ -67,7 +68,7 @@ func initHtmlTemplate(viewDir string) (HtmlTemplate, error) {
 func SpreadDigit(n int) []int {
 	var r []int
 	for i := 1; i <= n; i++ {
-		r = append(r,i)
+		r = append(r, i)
 	}
 	return r
 }
@@ -80,9 +81,9 @@ func readHtmlTemplate(htmlFileName []string, viewDir string) ([]TemplatePointer,
 
 	for _, name := range htmlFileName {
 
-		tp, err := template.New(name + ".html").
+		tp, err := template.New(name+".html").
 			Funcs(template.FuncMap{"SpreadDigit": SpreadDigit}).
-			ParseFiles(viewDir+"/" + name + ".html", head, footer)
+			ParseFiles(viewDir+"/"+name+".html", head, footer)
 		if err != nil {
 			return htmlTemplate, err
 		}

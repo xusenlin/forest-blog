@@ -4,7 +4,8 @@
 <h1 style="text-align: center">{{ .Data.Title }}</h1>
 
 <div class="article-info">
-        <span>
+    {{ if ne .Data.Category "" }}
+    <span>
             <img class="icon" src="/public/img/folder.svg" alt="">
             <span>
                 分类于
@@ -12,15 +13,30 @@
             </span>
         </span>
     <span class="divider-line"></span>
+    {{ end }}
+    {{ if .Data.Tags }}
+    <span>
+            <img class="icon" src="/public/img/tags.svg" alt="">
+             <span>
+                标签
+                 {{ range  .Data.Tags }}
+                <a class="category" href="/?tag={{ . }}">{{ . }}</a>
+                 {{ end }}
+            </span>
+         </span>
+    <span class="divider-line"></span>
+    {{ end }}
+
     <span>
             <img class="icon" src="/public/img/date.svg" alt="">
             <span>发表于{{ .Data.Date.Format "2006-01-02 15:04" }}</span>
         </span>
 </div>
 {{ if ne .Data.MusicId "" }}
-    <div class="music">
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0"  height=86 src="//music.163.com/outchain/player?type=2&id={{ .Data.MusicId }}&auto=0&height=66"></iframe>
-    </div>
+<div class="music">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" height=86
+            src="//music.163.com/outchain/player?type=2&id={{ .Data.MusicId }}&auto=0&height=66"></iframe>
+</div>
 {{ end }}
 <div id="article" class="article markdow">
 

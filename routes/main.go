@@ -11,6 +11,7 @@ func InitRoute()  {
 	http.HandleFunc("/", controller.Index)
 	http.HandleFunc("/blog", controller.Index)
 	http.HandleFunc("/categories", controller.Category)
+	http.HandleFunc("/tags", controller.Tag)
 	http.HandleFunc("/article", controller.Article)
 	http.HandleFunc("/extra-nav", controller.ExtraNav)
 
