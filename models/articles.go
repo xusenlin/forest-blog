@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"sort"
@@ -129,7 +128,6 @@ func RecursiveReadArticles(dir string) (Articles, error) {
 			strings.HasSuffix(upperName, ".JPG") {
 
 			dst := config.Cfg.CurrentDir + "/images/" + name
-			fmt.Println(utils.IsFile(dst))
 			if !utils.IsFile(dst) {
 				_, _ = utils.CopyFile(path, dst)
 			}
