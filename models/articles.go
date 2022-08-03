@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"sort"
@@ -59,7 +58,7 @@ func initArticlesAndImages(dir string) (Articles, map[string]string, error) {
 	return articles, shortUrlMap, nil
 }
 
-func ArticleSearch(articles *Articles, search string, category string) Articles {
+func ArticleSearch(articles *Articles, search, category, tag string) Articles {
 
 	var articleList Articles
 	for _, article := range *articles {
@@ -71,6 +70,15 @@ func ArticleSearch(articles *Articles, search string, category string) Articles 
 		}
 		if category != "" && strings.Index(article.Category, category) == -1 {
 			pass = false
+		}
+		if tag != "" {
+			pass = false
+			for _, tagItem := range article.Tags {
+				if strings.Index(tagItem, tag) != -1 {
+					pass = true
+					break
+				}
+			}
 		}
 		if pass {
 			articleList = append(articleList, article)
@@ -120,7 +128,6 @@ func RecursiveReadArticles(dir string) (Articles, error) {
 			strings.HasSuffix(upperName, ".JPG") {
 
 			dst := config.Cfg.CurrentDir + "/images/" + name
-			fmt.Println(utils.IsFile(dst))
 			if !utils.IsFile(dst) {
 				_, _ = utils.CopyFile(path, dst)
 			}
@@ -169,7 +176,7 @@ func readMarkdown(path string) (Article, ArticleDetail, error) {
 	article.Title = strings.TrimSuffix(strings.ToUpper(mdFile.Name()), ".MD")
 	article.Date = Time(mdFile.ModTime())
 
-	if ! bytes.HasPrefix(markdown, []byte("```json")) {
+	if !bytes.HasPrefix(markdown, []byte("```json")) {
 		article.Description = cropDesc(markdown)
 		articleDetail.Article = article
 		articleDetail.Body = string(markdown)

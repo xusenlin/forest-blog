@@ -15,6 +15,8 @@ type userConfig struct {
 
 	CategoryDisplayQuantity int `json:"categoryDisplayQuantity"`
 
+	TagDisplayQuantity int `json:"tagDisplayQuantity"`
+
 	UtterancesRepo string `json:"utterancesRepo"`
 
 	PageSize int `json:"pageSize"`
