@@ -11,6 +11,8 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/yuin/goldmark"
 )
 
 type Time time.Time
@@ -122,8 +124,7 @@ func RecursiveReadArticles(dir string) (Articles, error) {
 				return articles, err
 			}
 			articles = append(articles, article)
-		} else if
-		strings.HasSuffix(upperName, ".PNG") ||
+		} else if strings.HasSuffix(upperName, ".PNG") ||
 			strings.HasSuffix(upperName, ".GIF") ||
 			strings.HasSuffix(upperName, ".JPG") {
 
@@ -197,7 +198,14 @@ func readMarkdown(path string) (Article, ArticleDetail, error) {
 	article.Title = strings.ToUpper(article.Title)
 
 	articleDetail.Article = article
-	articleDetail.Body = string(markdownArrInfo[1])
+
+	var buf bytes.Buffer
+	if err := goldmark.Convert(markdownArrInfo[1], &buf); err != nil {
+		article.Title = "文章[" + article.Title + "]解析 markdown 出错，请检查。"
+		return article, articleDetail, nil
+	}
+
+	articleDetail.Body = buf.String()
 	return article, articleDetail, nil
 }
 

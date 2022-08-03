@@ -3,8 +3,8 @@ package models
 import (
 	"ForestBlog/config"
 	"fmt"
-	"html/template"
 	"io"
+	"text/template"
 )
 
 type TemplatePointer struct {
@@ -48,19 +48,26 @@ func BuildViewData(title string, data interface{}) map[string]interface{} {
 func initHtmlTemplate(viewDir string) (HtmlTemplate, error) {
 	var htmlTemplate HtmlTemplate
 
-	tp, err := readHtmlTemplate(
-		[]string{"index", "extraNav", "dashboard", "categories", "article", "tags"},
-		viewDir)
-	if err != nil {
+	var err error
+
+	if htmlTemplate.Index, err = readHtmlTemplate("index", viewDir); err != nil {
 		return htmlTemplate, err
 	}
-
-	htmlTemplate.Index = tp[0]
-	htmlTemplate.ExtraNav = tp[1]
-	htmlTemplate.Dashboard = tp[2]
-	htmlTemplate.Categories = tp[3]
-	htmlTemplate.Article = tp[4]
-	htmlTemplate.Tags = tp[5]
+	if htmlTemplate.ExtraNav, err = readHtmlTemplate("extraNav", viewDir); err != nil {
+		return htmlTemplate, err
+	}
+	if htmlTemplate.Dashboard, err = readHtmlTemplate("dashboard", viewDir); err != nil {
+		return htmlTemplate, err
+	}
+	if htmlTemplate.Categories, err = readHtmlTemplate("categories", viewDir); err != nil {
+		return htmlTemplate, err
+	}
+	if htmlTemplate.Article, err = readHtmlTemplate("article", viewDir); err != nil {
+		return htmlTemplate, err
+	}
+	if htmlTemplate.Tags, err = readHtmlTemplate("tags", viewDir); err != nil {
+		return htmlTemplate, err
+	}
 
 	return htmlTemplate, nil
 }
@@ -73,21 +80,16 @@ func SpreadDigit(n int) []int {
 	return r
 }
 
-func readHtmlTemplate(htmlFileName []string, viewDir string) ([]TemplatePointer, error) {
-	var htmlTemplate []TemplatePointer
+func readHtmlTemplate(htmlFileName string, viewDir string) (TemplatePointer, error) {
 
 	head := viewDir + "/layouts/head.html"
 	footer := viewDir + "/layouts/footer.html"
 
-	for _, name := range htmlFileName {
-
-		tp, err := template.New(name+".html").
-			Funcs(template.FuncMap{"SpreadDigit": SpreadDigit}).
-			ParseFiles(viewDir+"/"+name+".html", head, footer)
-		if err != nil {
-			return htmlTemplate, err
-		}
-		htmlTemplate = append(htmlTemplate, TemplatePointer{tp})
+	tp, err := template.New(htmlFileName+".html").
+		Funcs(template.FuncMap{"SpreadDigit": SpreadDigit}).
+		ParseFiles(viewDir+"/"+htmlFileName+".html", head, footer)
+	if err != nil {
+		return TemplatePointer{}, err
 	}
-	return htmlTemplate, nil
+	return TemplatePointer{tp}, nil
 }

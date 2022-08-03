@@ -38,13 +38,10 @@
             src="//music.163.com/outchain/player?type=2&id={{ .Data.MusicId }}&auto=0&height=66"></iframe>
 </div>
 {{ end }}
-<div id="article" class="article markdow">
-
+<div  class="article markdow">
+    {{  .Data.Body }}
 </div>
 
-<script>
-    document.getElementById('article').innerHTML = marked({{  .Data.Body }});
-</script>
 <script src="/public/js/prism.js"></script>
 {{if ne .Config.UtterancesRepo ""}}
     <script src="https://utteranc.es/client.js"
