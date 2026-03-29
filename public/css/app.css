@@ -250,6 +250,10 @@ hr:after{
     border-bottom: 3px solid #673ab7;
     border-bottom: 3px solid var(--primary,#673ab7);
 }
+.pagination .ellipsis a{
+    cursor: default;
+    color: #999;
+}
 
 /*Index*/
 .articles{

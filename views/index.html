@@ -47,13 +47,19 @@
 </ul>
 
 <ul class="pagination">
-    {{ range $page := SpreadDigit .Data.TotalPage  }}
-        <li
-                class="{{ if eq $page $.Data.Page }}active{{end}}"
-                {{ if ne $page $.Data.Page }}onclick="goPage({{$page}})"{{end}}
-        >
-            <a  href="javascript:;">{{ $page }}</a>
-        </li>
+    {{ range $page := SpreadDigit .Data.Page .Data.TotalPage  }}
+        {{ if eq $page 0 }}
+            <li class="ellipsis">
+                <a href="javascript:;">...</a>
+            </li>
+        {{ else }}
+            <li
+                    class="{{ if eq $page $.Data.Page }}active{{end}}"
+                    {{ if ne $page $.Data.Page }}onclick="goPage({{$page}})"{{end}}
+            >
+                <a  href="javascript:;">{{ $page }}</a>
+            </li>
+        {{ end }}
     {{end}}
     <li style="color: #bfbfbf;">
         [{{ .Data.Total }}]
