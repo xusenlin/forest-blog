@@ -140,6 +140,24 @@ blockquote::before{
     width: 100%;
     border-radius: 4px;
 }
+.markdow table{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+.markdow table th,
+.markdow table td{
+    padding: 10px 16px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.markdow table th{
+    background: #f5f2f0;
+    font-weight: 600;
+}
+.markdow table tr:nth-child(even){
+    background: #fafafa;
+}
 
 
 .footer{
