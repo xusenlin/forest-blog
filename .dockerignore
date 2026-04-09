@@ -1,0 +1,7 @@
+.git
+.gitignore
+blog_docs
+images
+*.md
+Makefile
+Dockerfile

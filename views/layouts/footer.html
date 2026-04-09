@@ -1,7 +1,7 @@
 {{define "footer"}}
     </div>
     <div class="footer">
-        <span>{{ .Config.Icp }}</span><span class="footer-divider"> | </span>
+        {{if .Config.Icp}}<span>{{ .Config.Icp }}</span><span class="footer-divider"> | </span>{{end}}
         <span>
             © 2018 - 2019 {{ .Config.Author }}
             Powered By  <a href="{{ .Config.AppRepository }}" target="_blank"> {{ .Config.AppName }} </a>
