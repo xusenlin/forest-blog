@@ -91,6 +91,29 @@ content目录下的一级目录代表一个分类，如果一级目录下有子�
 5. seo友好  ---通过golang直接将 markdown 渲染成 html展示
 
 ## 更新日志
+### 最新
+1. 容器化部署 (09010d1)
+
+新增 Dockerfile（多阶段构建）、Makefile、.dockerignore
+支持 make build/run/push/clean 一键操作
+默认推送到 GitHub Container Registry
+
+3. 分页样式优化 (5309f30)
+分页增加省略号样式
+自动显示首页/末页，当前页居中
+总页数 ≤7 时显示所有页码
+
+
+4. Markdown 表格支持 (feac36e)
+启用 GoldMark 表格解析
+添加表格样式（边框、斑马纹、表头背景）
+
+5. 极简镜像重构 (05bebe8)
+用 go-git 替代系统 git（纯 Go 实现 clone/pull）
+Docker 镜像从 60MB 降到 18.7MB
+最终镜像改为 scratch 空镜像 + 静态编译
+
+
 ### V3.1
 * pan-jf 提供了很赞的tag功能 👍🏻。
 * 去掉标题的.MD后缀
