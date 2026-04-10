@@ -1,26 +1,21 @@
-FROM golang:1.17-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
 COPY . .
 
-RUN go env -w GOPROXY=https://goproxy.cn,direct && \
-    CGO_ENABLED=0 GOOS=linux go build -o /app/forest-blog
+RUN go env -w GOTOOLCHAIN=auto GOPROXY=https://goproxy.cn,direct && \
+    CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /app/forest-blog
 
-FROM alpine:3.18
+FROM scratch
 
 WORKDIR /app
 
-RUN apk add --no-cache git && addgroup -S appgroup && adduser -S appuser -G appgroup
-
 COPY --from=builder /app/forest-blog .
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY config.json .
 COPY views ./views
 COPY public ./public
-
-RUN chown -R appuser:appgroup /app
-
-USER appuser
 
 EXPOSE 80
 

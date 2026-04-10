@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"os/exec"
 	"strings"
 )
 
@@ -15,6 +14,7 @@ type Config struct {
 	userConfig
 	systemConfig
 }
+
 //
 
 var Cfg Config
@@ -38,7 +38,7 @@ func init() {
 	}
 
 	if "" == Cfg.DashboardEntrance ||
-		! strings.HasPrefix(Cfg.DashboardEntrance, "/") {
+		!strings.HasPrefix(Cfg.DashboardEntrance, "/") {
 		Cfg.DashboardEntrance = "/admin"
 	}
 
@@ -56,25 +56,11 @@ func init() {
 }
 
 func Initial() {
-	if _, err := exec.LookPath("git"); err != nil {
-		fmt.Println("请先安装git")
+	fmt.Println("正在同步文档仓库，请稍等...")
+	if err := utils.CloneOrPull(Cfg.DocumentGitUrl, Cfg.DocumentDir); err != nil {
 		panic(err)
 	}
-	if !utils.IsDir(Cfg.DocumentDir) {
-		fmt.Println("正在克隆文档仓库，请稍等...")
-		out, err := utils.RunCmdByDir(Cfg.CurrentDir, "git", "clone", Cfg.DocumentGitUrl)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Println(out)
-	} else {
-		out, err := utils.RunCmdByDir(Cfg.DocumentDir, "git", "pull")
-		fmt.Println(out)
-		if err != nil {
-			panic(err)
-		}
 
-	}
 	if err := checkDocDirAndBindConfig(&Cfg); err != nil {
 		fmt.Println("文档缺少必要的目录")
 		panic(err)
